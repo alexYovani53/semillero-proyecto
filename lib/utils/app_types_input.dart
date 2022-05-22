@@ -1,0 +1,4 @@
+enum TypesInput{
+  CORREO,
+  TEXTO
+}
