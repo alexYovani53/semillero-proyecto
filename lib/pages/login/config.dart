@@ -12,3 +12,5 @@ const Color signInBox = Color(0xFF024335);
 
 const Color hintTextColor = Color(0xFFB4B4B4);
 const Color inputBorder = Color(0xFF707070);
+
+const Color textInput = Color(0xFFFFFFFF);

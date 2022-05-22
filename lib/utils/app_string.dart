@@ -13,6 +13,7 @@ enum Strings {
 
 
   initPassword,
-  initEmail
+  initEmail,
+  initUserName,
 
 }

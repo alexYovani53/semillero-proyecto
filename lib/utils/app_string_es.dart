@@ -16,5 +16,6 @@ const Map<Strings, String> dictionary_es = {
 
   
   Strings.initPassword:"Contraseña",
-  Strings.initEmail:"Correo"
+  Strings.initEmail:"Correo",
+  Strings.initUserName: "Usuario"
 };

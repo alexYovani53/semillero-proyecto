@@ -21,7 +21,7 @@ class NavigationDrawerCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
+
     lang = Provider.of<LanguajeProvider>(context,listen: false);
     diccionary = LocalizationsApp(lang.getLanguaje);
     theme =Provider.of<ThemeProvider>(context);
@@ -123,7 +123,7 @@ class NavigationDrawerCustom extends StatelessWidget {
           const Divider(color: Colors.black54),
           IconButton(
             onPressed: (){
-              Navigator.pop(context);
+              Navigator.popUntil(context, (route) => route.isFirst);
               bloc.add(userEventLogOut());
             }, 
             icon: Icon(Icons.logout)

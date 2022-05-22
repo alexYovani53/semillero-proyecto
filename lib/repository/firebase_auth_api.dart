@@ -21,10 +21,7 @@ class FirebaseAuthAPI {
   }
 
   Future<UserCredential?> signInFacebook() async{
-    List<String> permission = [];
-    permission.add("email"); 
-    permission.add("public_profile"); 
-    permission.add("user_friends");
+    List<String> permission = ['email', 'public_profile', 'user_birthday', 'user_friends', 'user_gender', 'user_link'];
 
     final LoginResult result = await FacebookAuth.instance.login(permissions: permission);
 

@@ -15,5 +15,6 @@ const Map<Strings, String> dictionary_en = {
   Strings.settingDevice: "Device",
 
   Strings.initPassword:"Password",
-  Strings.initEmail:"Email"
+  Strings.initEmail:"Email",
+  Strings.initUserName: "UserName"
 };
