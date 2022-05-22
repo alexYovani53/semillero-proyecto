@@ -41,22 +41,33 @@ class LoginPage1 extends StatelessWidget {
           child: Stack(
             children: [
               Positioned(
+                top: 80,
+                left: 150,
+                child: Container(
+                  child: Image.asset(
+                    "assets/images/chat.png",
+                    height: 100,
+                  ),
+                ),
+              ),
+              Positioned(
                 top: 200,
                 left: 59,
                 child: Container(
                   child: Text(
-                    'Login',
+                    'Inicio de sesión',
                     style: TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.w500,
+                      fontFamily:"lato",
+                      fontSize: 38,
+                      fontWeight: FontWeight.bold,
                       color: Colors.white
                     ),
                   ),
                 )
               ),
-              Positioned(top:290,right: 0, bottom: 0, child: Layer1(height: 654,)),
-              Positioned(top:318,right: 0, bottom: 28, child: Layer2()),
-              Positioned(top:320,right: 0, bottom: 48, child: FormLogin())
+              Positioned(top:280,right: 0, bottom: 0, child: Layer1(height: 654,)),
+              Positioned(top:308,right: 0, bottom: 28, child: Layer2()),
+              Positioned(top:310,right: 0, bottom: 48, child: FormLogin())
             ],
           ),
         ),
