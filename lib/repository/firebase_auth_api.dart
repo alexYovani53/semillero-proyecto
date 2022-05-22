@@ -91,7 +91,6 @@ class FirebaseAuthAPI {
     await auth.signOut().then((value) => {
       print("Sección cerrada")
     });
-
     await googleSingIn.signOut();
     await FacebookAuth.instance.logOut();
 
