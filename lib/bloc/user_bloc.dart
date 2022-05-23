@@ -12,6 +12,10 @@ class UserBloc extends Bloc<UserEvent,UserState>{
   Stream<User?> streamFirebase = FirebaseAuth.instance.authStateChanges();
   Stream<User?> get authStatus => streamFirebase;
 
+  Stream<User?> streamUser = FirebaseAuth.instance.userChanges();
+  Stream<User?> get authUser => streamUser;
+
+
   UserSesion? sesion;
 
 
@@ -25,11 +29,15 @@ class UserBloc extends Bloc<UserEvent,UserState>{
     on<UserEvent>((event, emit)  async {
     });
 
+    on<userEventUpdateProfile>((event, emit)  async {
+      await auth_repositori.actualizarPerfil(event.usuario,event.password);
+      var user = await usuarioActual();
+      await iniciarUsuario(user);
+    });
+
+
     on<UserEventCreateAcount>((event, emit) async{
       User? usuario = await auth_repositori.registerUsingEmailPassword("yovani",event.correo,event.password);
-      if(usuario!= null){
-        print(usuario.email);
-      }
     });
 
     on<UserEventLoginEmailPass>((event, emit) async {
@@ -56,21 +64,39 @@ class UserBloc extends Bloc<UserEvent,UserState>{
       await auth_repositori.signInFacebook();
     });
 
+
+    on<UserEventPageEdit>((event,emit)async {
+      print("emitiendo evento");
+      emit(UserEditState());
+    });
+    on<UserEventPageProfile>((event,emit)async {
+      emit(UserProfileState());
+    });
+    on<UserEventPageSettings>((event,emit)async {
+      print("emitiendo evento");
+      emit(UserSettingsState());
+    });
+    on<UserEventPageChat>((event,emit)async {
+      print("emitiendo evento");
+      emit(UserChatState());
+    });
+
   }
 
 
   Future<void> iniciarUsuario(user) async{
-    await Future.delayed(const Duration(seconds: 1), () {
-      if(user!=null){        
+    if(user!=null){        
 
-        sesion = UserSesion(
-          uid: user.uid, 
-          name: user.displayName??"", 
-          email: user.email ?? "", 
-          photoURL: user.photoURL??""
-        );
-      }
-    });  
+      sesion = UserSesion(
+        uid: user.uid, 
+        name: user.displayName??"", 
+        email: user.email ?? "", 
+        photoURL: user.photoURL??""
+      );
+    }
+
+    print("Se actualizoooooooooooooooooooooooooooo");
+
   }
 
 }

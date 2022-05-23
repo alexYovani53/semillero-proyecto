@@ -1,5 +1,9 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:universales_proyecto/bloc/user_bloc.dart';
+import 'package:universales_proyecto/pages/editProfile/edit_profile.dart';
+import 'package:universales_proyecto/pages/settings/page_setting.dart';
 import 'package:universales_proyecto/widget/navigation_drawer_custom.dart';
 
 class Profile extends StatefulWidget {
@@ -12,16 +16,18 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   double coverHeight = 280;
-
   double profileHeight = 144;
-
   bool _expanded = false;
   int _index = 0;
-
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
+  late UserBloc bloc;
+  
 
   @override
   Widget build(BuildContext context) {
+
+    bloc = BlocProvider.of<UserBloc>(context);
 
     final top = coverHeight - profileHeight/2;
     return Scaffold(
@@ -77,7 +83,7 @@ class _ProfileState extends State<Profile> {
       child: CircleAvatar(
         radius: (profileHeight/2)-10,
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
-        backgroundImage: getImage("https://scontent-gua1-1.xx.fbcdn.net/v/t39.30808-6/270011001_4394168207379141_2498431562754588565_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=aEUaXWH4Zx8AX_zd0cH&_nc_ht=scontent-gua1-1.xx&oh=00_AT-4Oo8_66LMCtK5UPevejHgJjImBxkgbJCjOzdSWrCMlQ&oe=628DDD34"),
+        backgroundImage: getImage(bloc.sesion?.photoURL??""),
       )
       ,
     );
@@ -90,18 +96,18 @@ class _ProfileState extends State<Profile> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            "hola",
-            style: TextStyle(
+            bloc.sesion!.name,
+            style: const TextStyle(
               fontSize: 26,
               fontWeight: FontWeight.w600
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Text(
-            "aleyovani53@gmail.com",
-            style: TextStyle(
+            bloc.sesion!.email,
+            style: const TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w300
             ),
@@ -186,18 +192,35 @@ class _ProfileState extends State<Profile> {
         color: Colors.grey.shade400,
         borderRadius: BorderRadius.circular(50)
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.settings),
-              Divider(height: 48,),
-              Text("Configurar perfil")
-            ],
-          ),
-          IconButton(onPressed: (){}, icon: Icon(Icons.arrow_right))
-        ],
+      child: InkWell(
+        onTap: (){
+          Navigator.push(
+              context, 
+              MaterialPageRoute(
+                builder: (ctx){
+                  return BlocProvider.value(
+                    value: BlocProvider.of<UserBloc>(context),
+                    child: const EditProfile(),
+                  );
+                }
+              )
+            );
+        },
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.settings),
+                Divider(height: 48,),
+                Text("Configurar perfil")
+              ],
+            ),
+            IconButton(onPressed: (){
+              
+            }, icon: Icon(Icons.arrow_right))
+          ],
+        ),
       ),
     );
   }

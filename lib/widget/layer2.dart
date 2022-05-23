@@ -1,7 +1,7 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:universales_proyecto/pages/login/config.dart';
+import 'package:universales_proyecto/utils/config.dart';
 
 class Layer2 extends StatelessWidget {
   const Layer2({ Key? key }) : super(key: key);

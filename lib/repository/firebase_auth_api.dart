@@ -48,12 +48,41 @@ class FirebaseAuthAPI {
       UserCredential userCredential = await auth.signInWithEmailAndPassword(email: email, password: password);
       user = auth.currentUser;
 
-    } on FirebaseAuthException catch (e) {
-      
+    } on FirebaseAuthException catch (e) {      
     } catch (e){
-
     }
     
+    return user;
+  }
+
+  Future<User?> actualizarPerfil({
+    String? userName,
+    String? password
+  }) async{
+
+    
+    User? user = auth.currentUser;    
+
+    if(password!=null){  
+      try {
+        await user!.updatePassword(password);      
+        await user.reload();
+        user = auth.currentUser;
+      }catch(e){
+        print("Error");
+      }
+    }
+
+    if(userName!=null){    
+      try {
+        await user!.updateDisplayName(userName);        
+        await user.reload();      
+        user = auth.currentUser;
+      }catch(e){
+        print("Error");
+      }
+    }
+
     return user;
   }
 
@@ -85,9 +114,7 @@ class FirebaseAuthAPI {
   }
 
   Future<void> signOut() async {
-    await auth.signOut().then((value) => {
-      print("Sección cerrada")
-    });
+    await auth.signOut().then((value) => {});
     await googleSingIn.signOut();
     await FacebookAuth.instance.logOut();
 

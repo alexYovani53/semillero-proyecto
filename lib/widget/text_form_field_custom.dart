@@ -1,8 +1,8 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:universales_proyecto/pages/login/config.dart';
 import 'package:universales_proyecto/utils/app_types_input.dart';
+import 'package:universales_proyecto/utils/config.dart';
 
 class TextFormFieldCustom extends StatefulWidget {
 

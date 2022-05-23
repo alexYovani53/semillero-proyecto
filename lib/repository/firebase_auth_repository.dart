@@ -21,5 +21,10 @@ class AuthRepository {
     String password) => 
     _firebaseAuthAPI_.loginUsingEmailPassword(  email: email,   password: password);
 
+  Future<User?> actualizarPerfil(
+    String? userName, 
+    String? password) => 
+    _firebaseAuthAPI_.actualizarPerfil(  userName: userName,   password: password);
+
 
 }
