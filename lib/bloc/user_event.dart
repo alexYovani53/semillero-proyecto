@@ -8,8 +8,15 @@ abstract class UserEvent extends Equatable{
   List<Object?> get props =>[];
 }
 
-class UserEventCarcarData extends UserEvent {
-  
+class UserEventPageSettings extends UserEvent{}
+class UserEventPageProfile extends UserEvent{}
+class UserEventPageEdit extends UserEvent{}
+class UserEventPageChat extends UserEvent{}
+
+
+
+
+class UserEventCarcarData extends UserEvent {  
  @override
   List<Object?> get props =>[];
 }
@@ -17,33 +24,24 @@ class UserEventCarcarData extends UserEvent {
 class UserEventLoginEmailPass extends UserEvent{
   String correo;
   String password;
-  
   UserEventLoginEmailPass({
     required this.correo,
     required this.password
-  });
-
-  
+  }); 
  @override
   List<Object?> get props =>[correo,password];
-
-
 }
 
 
 class UserEventCreateAcount extends UserEvent{
   String correo;
   String password;
-
   UserEventCreateAcount({
     required this.correo,
     required this.password
-  });
-
-  
+  });  
  @override
   List<Object?> get props =>[correo,password];
-
 }
 
 class userEventLogOut extends UserEvent {
@@ -60,4 +58,15 @@ class userEventLoginGoogle extends UserEvent{
 class userEventLoginFacebook extends UserEvent{
  @override
   List<Object?> get props =>[];  
+}
+
+class userEventUpdateProfile extends UserEvent{
+  String? usuario;
+  String? password;
+  userEventUpdateProfile({
+    this.usuario,
+    this.password
+  });
+  @override
+  List<Object?> get props =>[usuario,password];  
 }

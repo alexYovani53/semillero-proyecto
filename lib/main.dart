@@ -10,6 +10,7 @@ import 'package:universales_proyecto/init_page.dart';
 import 'package:universales_proyecto/provider/languaje_provider.dart';
 import 'package:universales_proyecto/provider/theme_provider.dart';
 import 'package:universales_proyecto/widget/navigation_drawer_custom.dart';
+import 'package:universales_proyecto/widget/splash_screen.dart';
 
 
 void main(){
@@ -44,7 +45,7 @@ class _MyAppState extends State<MyApp> {
     await inicializarConfs();
     await initiliazeCrashlytics();
     await initializeRealTime();
-    print("LLego acá, inicio irebase?");
+    print("LLego acá, inicio firebase?");
   }
 
 
@@ -86,21 +87,10 @@ class _MyAppState extends State<MyApp> {
       future: initiliazeFireBase(),
       builder: (context,snapshot){
         if(snapshot.connectionState == ConnectionState.done){
-          return MultiProvider(
-            providers: [
-              ChangeNotifierProvider.value(value: languajeProvider),
-              ChangeNotifierProvider.value(value: themeProvider),
-            ],
-            child: Consumer2<LanguajeProvider,ThemeProvider>(
-              builder: (context, LanguajeProvider lang, ThemeProvider theme, child) {
-                return InitPage();
-                
-              },
-            ),
-          );
+          return InitPage();
         }else{
-          return const Center(
-            child: CircularProgressIndicator(),
+          return MaterialApp(
+            home: SplashScree(),
           );
         }
       },

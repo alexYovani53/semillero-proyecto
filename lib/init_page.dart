@@ -7,19 +7,27 @@ import 'package:provider/provider.dart';
 import 'package:universales_proyecto/bloc/user_bloc.dart';
 import 'package:universales_proyecto/localizations/localizations.dart';
 import 'package:universales_proyecto/main.dart';
+import 'package:universales_proyecto/pages/chat/chat.dart';
+import 'package:universales_proyecto/pages/chat/chats_screen.dart';
+import 'package:universales_proyecto/pages/editProfile/edit_profile.dart';
 import 'package:universales_proyecto/pages/login/login_page1.dart';
 import 'package:universales_proyecto/pages/login/register_page.dart';
 import 'package:universales_proyecto/pages/profile/profile.dart';
 import 'package:universales_proyecto/pages/settings/page_setting.dart';
 import 'package:universales_proyecto/provider/languaje_provider.dart';
 import 'package:universales_proyecto/provider/theme_provider.dart';
+import 'package:universales_proyecto/widget/splash_screen.dart';
 
 
 
 class InitPage extends StatefulWidget {
 
+  Widget? hijo;
 
-  InitPage({Key? key}) : super(key: key);
+  InitPage({
+    Key? key,
+    this.hijo
+  }) : super(key: key);
 
   @override
   State<InitPage> createState() => _InitPageState();
@@ -33,7 +41,7 @@ class _InitPageState extends State<InitPage> {
 
   @override 
   void initState(){    
-    var window = WidgetsBinding.instance!.window;
+    var window = WidgetsBinding.instance.window;
 
     // This callback is called every time the brightness changes.
     window.onPlatformBrightnessChanged = () {
@@ -41,9 +49,11 @@ class _InitPageState extends State<InitPage> {
       ThemeMode nuevo = brightness == Brightness.light? ThemeMode.light:ThemeMode.dark;
       themeProvider.setTheme = nuevo;
     };
-
     bloc = UserBloc();
     
+    ThemeProvider().getInitTheme();
+    LanguajeProvider().getLocaleInit();
+
     super.initState();
   }
 
@@ -89,6 +99,8 @@ class _InitPageState extends State<InitPage> {
           switch (state.runtimeType) {
             case UserInitState:    
               break;
+            case UserActualizacionState:
+              break;
             default:
               break;
           }
@@ -107,7 +119,19 @@ class _InitPageState extends State<InitPage> {
                   );
                 }else{
                   bloc.add(UserEventCarcarData());
-                  return Profile();
+
+                  switch (state.runtimeType) {
+                    case UserProfileState:     
+                      return Profile();
+                    case UserSettingsState:                      
+                      return PageSetting();
+                    case UserChatState:
+                      return ChatsScreen();
+                    default:
+                      bloc.add(UserEventPageProfile());
+                      return SplashScree();
+                  }
+
                 }
               },
             );

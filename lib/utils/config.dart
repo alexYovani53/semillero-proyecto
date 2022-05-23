@@ -14,3 +14,6 @@ const Color hintTextColor = Color(0xFFB4B4B4);
 const Color inputBorder = Color(0xFF707070);
 
 const Color textInput = Color(0xFFFFFFFF);
+
+const kDefaultPadding = 20.0;
+const kPrimaryColor = Colors.green;

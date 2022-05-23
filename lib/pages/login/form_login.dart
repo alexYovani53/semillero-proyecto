@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:universales_proyecto/bloc/user_bloc.dart';
-import 'package:universales_proyecto/pages/login/config.dart';
+import 'package:universales_proyecto/utils/config.dart';
 import 'package:universales_proyecto/provider/theme_provider.dart';
 import 'package:universales_proyecto/utils/app_types_input.dart';
 import 'package:universales_proyecto/widget/text_form_field_custom.dart';

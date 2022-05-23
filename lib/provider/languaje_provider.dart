@@ -25,7 +25,7 @@ class LanguajeProvider with ChangeNotifier{
     if(_locale == null){
       getLocaleInit();      
     }
-    return _locale!;
+    return _locale??Locale("es");
   }
 
   set setLanguaje (Locale newLang){
