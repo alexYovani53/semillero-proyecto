@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:universales_proyecto/bloc/user_bloc.dart';
+import 'package:universales_proyecto/bloc/user/user_bloc.dart';
 import 'package:universales_proyecto/localizations/localizations.dart';
 import 'package:universales_proyecto/pages/editProfile/edit_profile.dart';
 import 'package:universales_proyecto/pages/profile/profile.dart';
@@ -150,7 +150,7 @@ class NavigationDrawerCustom extends StatelessWidget {
             icon: Icon(Icons.logout)
           ),
           const Divider(color: Colors.black54),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           const Center(

@@ -1,8 +1,9 @@
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:universales_proyecto/bloc/user_bloc.dart';
+import 'package:universales_proyecto/bloc/user/user_bloc.dart';
 import 'package:universales_proyecto/localizations/localizations.dart';
 import 'package:universales_proyecto/utils/config.dart';
 import 'package:universales_proyecto/provider/languaje_provider.dart';
@@ -44,8 +45,7 @@ class _FormRegisterState extends State<FormRegister> {
 
       height: 584,
       width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
         children: [
           Container(
             margin: EdgeInsets.only(left: 59,top: 20),
@@ -78,7 +78,7 @@ class _FormRegisterState extends State<FormRegister> {
                       ),
                       Container(
                         width: 310,
-                        child: TextFormFieldCustom(hintText: 'ingrese un correo',icono: Icons.password,tipo: TypesInput.TEXTO,controller: controllerUserName,ocultar:false)
+                        child: TextFormFieldCustom(hintText: 'ingrese un usuario',icono: Icons.password,tipo: TypesInput.TEXTO,controller: controllerUserName,ocultar:false)
                       ),
                       const SizedBox(height: 20,),
                       Text(
@@ -90,20 +90,25 @@ class _FormRegisterState extends State<FormRegister> {
                       ),
                       Container(
                         width: 310,
-                        child: TextFormFieldCustom(hintText: 'ingrese un correo',icono: Icons.password,tipo: TypesInput.TEXTO,controller: controllerContrasena,ocultar:true)
+                        child: TextFormFieldCustom(hintText: 'ingrese una contraseña',icono: Icons.password,tipo: TypesInput.TEXTO,controller: controllerContrasena,ocultar:true)
                       ),
                       Container(
                         margin: EdgeInsets.symmetric(vertical: 20),
                         alignment: Alignment.center,
                         width: 310,
                         child: InkWell(
-                          onTap: (){
+                          onTap: () async {
 
                             if(formKey.currentState!.validate()){                                
                               bloc.add(UserEventCreateAcount(
                                 correo: controllerCorreo.text,
                                 password: controllerContrasena.text
                               ));
+                            }else{
+                              showFlushBar("Formulario", "Verifique los campos");
+                              await Future.delayed(Duration(seconds:2),(){
+                                formKey.currentState!.reset();
+                              });
                             }
                           },
                           child: Container(
@@ -213,5 +218,22 @@ class _FormRegisterState extends State<FormRegister> {
       )
 
     );
+  } 
+  
+  showFlushBar(String titulo, String texto){
+    Flushbar(
+      title:  titulo,
+      message:  texto,
+      duration:  const Duration(seconds: 6),            
+      margin:    const EdgeInsets.only(top: 8, bottom: 55.0, left: 8, right: 8),
+      borderRadius: BorderRadius.circular(8),
+      icon: Icon(
+        Icons.info_outline,
+        size: 28.0,
+        color: Colors.blue[300],
+      ),
+      flushbarPosition: FlushbarPosition.TOP,
+      leftBarIndicatorColor: Colors.blue[300],
+    ).show(context);
   }
 }

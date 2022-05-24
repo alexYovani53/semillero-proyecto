@@ -9,7 +9,7 @@ class MessageScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
+      appBar: buildAppBar(context),
       body: buildBody(context),
     );
   }
@@ -32,12 +32,17 @@ class MessageScreen extends StatelessWidget {
     );
   }
 
-  AppBar buildAppBar(){
+  AppBar buildAppBar(BuildContext context){
     return AppBar(
         automaticallyImplyLeading: false,
         title: Row(
           children: [
-            FloatingActionButton(onPressed: (){}),
+            InkWell(
+              onTap: (){
+                Navigator.pop(context);
+              },
+              child: Icon(Icons.arrow_back_ios),
+            ),
             CircleAvatar(
               backgroundImage: AssetImage("assets/images/chat.png"),
             ),
