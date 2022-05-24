@@ -14,3 +14,5 @@ class UserEditState extends UserState{}
 class UserChatState extends UserState{}
 
 class UserActualizacionState extends UserState{}
+
+class UserErrorState extends UserState{}

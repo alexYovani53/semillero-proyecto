@@ -38,9 +38,9 @@ class _RegisterPageState extends State<RegisterPage> {
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               colors: [
-                    theme.getTheme == ThemeMode.light? Color(0xffFBF6DD):Color(0xffFBF6DD),
-                    theme.getTheme == ThemeMode.light? Color(0xff43B3A6):Color(0xff43B3A6),
-                    theme.getTheme == ThemeMode.light? Color(0xff2B3139):Color(0xff2B3139),
+                    theme.getTheme == ThemeMode.light? Color(0xffFBF6DD):Color(0xFFE0DCC5),
+                    theme.getTheme == ThemeMode.light? Color(0xff43B3A6):Color.fromARGB(255, 51, 138, 128),
+                    theme.getTheme == ThemeMode.light? Color(0xff2B3139):Color.fromARGB(255, 27, 31, 36),
               ],
             )
           ),

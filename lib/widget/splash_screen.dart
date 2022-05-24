@@ -10,9 +10,18 @@ class SplashScree extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       body:Container(
-        color: Color.fromARGB(255, 1, 88, 160),
         width: MediaQuery.of(context).size.width,        
         height: MediaQuery.of(context).size.height,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(            
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              Color(0xFF2c3e50),
+              Color(0xFF3498db)
+            ]
+          )
+        ),
         child: Center(
           child: Container(
             height: 50,

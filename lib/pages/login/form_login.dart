@@ -1,8 +1,9 @@
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:universales_proyecto/bloc/user_bloc.dart';
+import 'package:universales_proyecto/bloc/user/user_bloc.dart';
 import 'package:universales_proyecto/utils/config.dart';
 import 'package:universales_proyecto/provider/theme_provider.dart';
 import 'package:universales_proyecto/utils/app_types_input.dart';
@@ -99,7 +100,7 @@ class _FormLoginState extends State<FormLogin> {
                             if (formKey.currentState!.validate()){
                               bloc.add(UserEventLoginEmailPass(correo: controllerCorreo.text,password: controllerContrasena.text));
                             }else{
-
+                              showFlushBar("Error","Formulario no valido");
                             }
                           },
                           child: Container(
@@ -197,5 +198,22 @@ class _FormLoginState extends State<FormLogin> {
       )
 
     );
+  }
+
+  showFlushBar(String titulo, String texto){
+    Flushbar(
+      title:  titulo,
+      message:  texto,
+      duration:  const Duration(seconds: 6),            
+      margin:    const EdgeInsets.only(top: 8, bottom: 55.0, left: 8, right: 8),
+      borderRadius: BorderRadius.circular(8),
+      icon: Icon(
+        Icons.info_outline,
+        size: 28.0,
+        color: Colors.blue[300],
+      ),
+      flushbarPosition: FlushbarPosition.TOP,
+      leftBarIndicatorColor: Colors.blue[300],
+    ).show(context);
   }
 }

@@ -1,9 +1,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:universales_proyecto/bloc/user_bloc.dart';
+import 'package:universales_proyecto/bloc/user/user_bloc.dart';
 import 'package:universales_proyecto/pages/editProfile/edit_profile.dart';
 import 'package:universales_proyecto/pages/settings/page_setting.dart';
+import 'package:universales_proyecto/widget/custo_page_router.dart';
 import 'package:universales_proyecto/widget/navigation_drawer_custom.dart';
 
 class Profile extends StatefulWidget {
@@ -194,15 +195,24 @@ class _ProfileState extends State<Profile> {
       ),
       child: InkWell(
         onTap: (){
+          // Navigator.push(
+          //     context, 
+          //     MaterialPageRoute(
+          //       builder: (ctx){
+          //         return BlocProvider.value(
+          //           value: BlocProvider.of<UserBloc>(context),
+          //           child: const EditProfile(),
+          //         );
+          //       }
+          //     )
+          //   );
           Navigator.push(
               context, 
-              MaterialPageRoute(
-                builder: (ctx){
-                  return BlocProvider.value(
-                    value: BlocProvider.of<UserBloc>(context),
-                    child: const EditProfile(),
-                  );
-                }
+              CustomPageRoute(
+                child: BlocProvider.value(
+                  value: BlocProvider.of<UserBloc>(context),
+                  child: const EditProfile(),
+                )
               )
             );
         },

@@ -32,9 +32,9 @@ class LoginPage1 extends StatelessWidget {
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               colors: [
-                    theme.getTheme == ThemeMode.light? Color(0xffFBF6DD):Color(0xffFBF6DD),
-                    theme.getTheme == ThemeMode.light? Color(0xff43B3A6):Color(0xff43B3A6),
-                    theme.getTheme == ThemeMode.light? Color(0xff2B3139):Color(0xff2B3139),
+                    theme.getTheme == ThemeMode.light? Color(0xffFBF6DD):Color.fromARGB(255, 184, 180, 161),
+                    theme.getTheme == ThemeMode.light? Color(0xff43B3A6):Color.fromARGB(255, 45, 122, 113),
+                    theme.getTheme == ThemeMode.light? Color(0xff2B3139):Color.fromARGB(255, 37, 42, 48),
               ],
             )
           ),
