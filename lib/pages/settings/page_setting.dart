@@ -28,14 +28,6 @@ class _PageSettingState extends State<PageSetting> {
   bool estado = false;
   
 
-  void getDeviceConfigurations() async {
-    bool datoTheme = await AppPreferences.shared.getBool(AppPreferences.APP_THEME_DEVICE)??false;
-    bool datoLang = await AppPreferences.shared.getBool(AppPreferences.APP_LANG_DEVICE)??false;
-    setState(() {      
-      usingThemeDevice = datoTheme;
-      usingLangDevice = datoLang;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +35,11 @@ class _PageSettingState extends State<PageSetting> {
     getDeviceConfigurations();
 
     final LanguajeProvider lang = Provider.of<LanguajeProvider>(context,listen: false);
-    final LocalizationsApp diccionary = LocalizationsApp(lang.getLanguaje);
+    diccionary = LocalizationsApp(lang.getLanguaje);
     selectedItem = lang.getLanguaje.languageCode == "es"? "Español":"English";
 
 
-    final ThemeProvider theme =Provider.of<ThemeProvider>(context);
+    final ThemeProvider theme =Provider.of<ThemeProvider>(context,listen: false);
     selectedTheme = theme.getTheme == ThemeMode.light? diccionary.diccionario(Strings.settingLight): diccionary.diccionario(Strings.settingDark);
 
     return Scaffold(
@@ -449,6 +441,14 @@ class _PageSettingState extends State<PageSetting> {
 
 
 
+  void getDeviceConfigurations() async {
+    bool datoTheme = await AppPreferences.shared.getBool(AppPreferences.APP_THEME_DEVICE)??false;
+    bool datoLang = await AppPreferences.shared.getBool(AppPreferences.APP_LANG_DEVICE)??false;
+    setState(() {      
+      usingThemeDevice = datoTheme;
+      usingLangDevice = datoLang;
+    });
+  }
 
 
   List<DropdownMenuItem<String>> getItems( BuildContext){

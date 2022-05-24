@@ -13,6 +13,17 @@ enum Strings {
 
 
   initPassword,
-  initEmail
+  initEmail,
+  initUserName,
+
+  editingText1,
+  editingText2,
+  editingSubtext,
+  editingUserName,
+  editingPassword,
+  editingInputUser,
+  editingInputPassword,
+  editingMessageUser,
+  editingMessagePassword
 
 }

@@ -32,31 +32,42 @@ class LoginPage1 extends StatelessWidget {
               begin: Alignment.bottomLeft,
               end: Alignment.topRight,
               colors: [
-                    theme.getTheme == ThemeMode.light? Color(0xffFBF6DD):Color(0xffFBF6DD),
-                    theme.getTheme == ThemeMode.light? Color(0xff43B3A6):Color(0xff43B3A6),
-                    theme.getTheme == ThemeMode.light? Color(0xff2B3139):Color(0xff2B3139),
+                    theme.getTheme == ThemeMode.light? Color(0xffFBF6DD):Color.fromARGB(255, 184, 180, 161),
+                    theme.getTheme == ThemeMode.light? Color(0xff43B3A6):Color.fromARGB(255, 45, 122, 113),
+                    theme.getTheme == ThemeMode.light? Color(0xff2B3139):Color.fromARGB(255, 37, 42, 48),
               ],
             )
           ),
           child: Stack(
             children: [
               Positioned(
+                top: 80,
+                left: 150,
+                child: Container(
+                  child: Image.asset(
+                    "assets/images/chat.png",
+                    height: 100,
+                  ),
+                ),
+              ),
+              Positioned(
                 top: 200,
                 left: 59,
                 child: Container(
                   child: Text(
-                    'Login',
+                    'Inicio de sesión',
                     style: TextStyle(
-                      fontSize: 48,
-                      fontWeight: FontWeight.w500,
+                      fontFamily:"lato",
+                      fontSize: 38,
+                      fontWeight: FontWeight.bold,
                       color: Colors.white
                     ),
                   ),
                 )
               ),
-              Positioned(top:290,right: 0, bottom: 0, child: Layer1(height: 654,)),
-              Positioned(top:318,right: 0, bottom: 28, child: Layer2()),
-              Positioned(top:320,right: 0, bottom: 48, child: FormLogin())
+              Positioned(top:280,right: 0, bottom: 0, child: Layer1(height: 654,)),
+              Positioned(top:308,right: 0, bottom: 28, child: Layer2()),
+              Positioned(top:310,right: 0, bottom: 48, child: FormLogin())
             ],
           ),
         ),

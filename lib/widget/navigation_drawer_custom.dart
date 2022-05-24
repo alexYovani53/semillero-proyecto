@@ -4,8 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:universales_proyecto/bloc/user_bloc.dart';
+import 'package:universales_proyecto/bloc/user/user_bloc.dart';
 import 'package:universales_proyecto/localizations/localizations.dart';
+import 'package:universales_proyecto/pages/editProfile/edit_profile.dart';
 import 'package:universales_proyecto/pages/profile/profile.dart';
 import 'package:universales_proyecto/pages/settings/page_setting.dart';
 import 'package:universales_proyecto/provider/languaje_provider.dart';
@@ -21,11 +22,11 @@ class NavigationDrawerCustom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    
+
     lang = Provider.of<LanguajeProvider>(context,listen: false);
     diccionary = LocalizationsApp(lang.getLanguaje);
-    theme =Provider.of<ThemeProvider>(context);
-    bloc = BlocProvider.of<UserBloc>(context);
+    theme =Provider.of<ThemeProvider>(context,listen: false );
+    bloc = BlocProvider.of<UserBloc>(context,listen: false );
 
     bloc.add(UserEventCarcarData());
 
@@ -81,55 +82,75 @@ class NavigationDrawerCustom extends StatelessWidget {
             onTap: (){
               
               Navigator.pop(context);
-              Navigator.popUntil(context, (route) => route.isFirst);
-              Navigator.push(
-                context, 
-                MaterialPageRoute(
-                  builder: (ctx){
-                    return BlocProvider.value(
-                      value: BlocProvider.of<UserBloc>(context),
-                      child: Profile(),
-                    );
-                  }
-                )
-              );
+              bloc.add(UserEventPageProfile());
+              // Navigator.pop(context);
+              // Navigator.popUntil(context, (route) => route.isFirst);
+              // Navigator.push(
+              //   context, 
+              //   MaterialPageRoute(
+              //     builder: (ctx){
+                    
+              //       return BlocProvider.value(
+              //         value: BlocProvider.of<UserBloc>(context),
+              //         child: Profile(),
+              //       );
+              //     }
+              //   )
+              // );
             },
           ),
           ListTile(
             leading: const Icon(Icons.home_outlined),
-            title: const Text('Home'),
-            onTap: (){},
+            title: const Text('Chat'),
+            onTap: (){
+              
+              Navigator.pop(context);
+              bloc.add(UserEventPageChat());
+              // Navigator.pop(context);
+              // Navigator.popUntil(context, (route) => route.isFirst);
+              // Navigator.push(
+              //   context, 
+              //   MaterialPageRoute(
+              //     builder: (ctx){
+              //       return BlocProvider.value(
+              //         value: BlocProvider.of<UserBloc>(context),
+              //         child: const EditProfile(),
+              //       );
+              //     }
+              //   )
+              // );
+            },
           ),
           ListTile(
             leading: const Icon(Icons.settings_applications),
             title: const Text('Configuraciones'),
             onTap: (){
-              
               Navigator.pop(context);
-              Navigator.popUntil(context, (route) => route.isFirst);
-              Navigator.push(
-                context, 
-                MaterialPageRoute(
-                  builder: (ctx){
-                    return BlocProvider.value(
-                      value: BlocProvider.of<UserBloc>(context),
-                      child: const PageSetting(),
-                    );
-                  }
-                )
-              );
+              bloc.add(UserEventPageSettings());
+              // Navigator.pop(context);
+              // Navigator.push(
+              //   context, 
+              //   MaterialPageRoute(
+              //     builder: (ctx){
+              //       return BlocProvider.value(
+              //         value: BlocProvider.of<UserBloc>(context),
+              //         child: const PageSetting(),
+              //       );
+              //     }
+              //   )
+              // );
             },
           ),
           const Divider(color: Colors.black54),
           IconButton(
             onPressed: (){
-              Navigator.pop(context);
+              Navigator.popUntil(context, (route) => route.isFirst);
               bloc.add(userEventLogOut());
             }, 
             icon: Icon(Icons.logout)
           ),
           const Divider(color: Colors.black54),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           const Center(

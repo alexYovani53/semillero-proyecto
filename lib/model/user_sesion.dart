@@ -15,4 +15,15 @@ class UserSesion {
     required this.photoURL,
   });
 
+  UserSesion.fromJson(Map<String, dynamic> json)
+      : uid = json['uid'],
+        name = json['name'],
+        email = json['email'],
+        photoURL = json['photoURL'];
+
+  Map<String, dynamic> toJson() => {
+    'name': name,
+    'email': email,
+  };
+
 }

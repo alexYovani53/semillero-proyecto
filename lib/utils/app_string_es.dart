@@ -16,5 +16,17 @@ const Map<Strings, String> dictionary_es = {
 
   
   Strings.initPassword:"Contraseña",
-  Strings.initEmail:"Correo"
+  Strings.initEmail:"Correo",
+  Strings.initUserName: "Usuario",
+
+  
+  Strings.editingText1:"Editar ",
+  Strings.editingText2:"Perfil",
+  Strings.editingSubtext:"Actualiza tu información",
+  Strings.editingUserName:"Nombre de usuario",
+  Strings.editingPassword:"Contraseña",
+  Strings.editingInputUser:"Nombre de usuario",
+  Strings.editingInputPassword:"Contraseña",
+  Strings.editingMessageUser:"",
+  Strings.editingMessagePassword:""
 };

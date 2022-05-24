@@ -1,10 +1,11 @@
 
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
-import 'package:universales_proyecto/bloc/user_bloc.dart';
+import 'package:universales_proyecto/bloc/user/user_bloc.dart';
 import 'package:universales_proyecto/localizations/localizations.dart';
-import 'package:universales_proyecto/pages/login/config.dart';
+import 'package:universales_proyecto/utils/config.dart';
 import 'package:universales_proyecto/provider/languaje_provider.dart';
 import 'package:universales_proyecto/provider/theme_provider.dart';
 import 'package:universales_proyecto/utils/app_string.dart';
@@ -23,7 +24,7 @@ class _FormRegisterState extends State<FormRegister> {
   final formKey = GlobalKey<FormState>();  
 
   final controllerCorreo = TextEditingController();
-
+  final controllerUserName = TextEditingController();
   final controllerContrasena = TextEditingController();    
 
   late ThemeProvider theme;
@@ -44,11 +45,10 @@ class _FormRegisterState extends State<FormRegister> {
 
       height: 584,
       width: MediaQuery.of(context).size.width,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
         children: [
           Container(
-            margin: EdgeInsets.only(left: 59,top: 99),
+            margin: EdgeInsets.only(left: 59,top: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -66,7 +66,19 @@ class _FormRegisterState extends State<FormRegister> {
                       ),
                       Container(
                         width: 310,
-                        child: TextFormFieldCustom(hintText: 'ingrese un correo',icono: Icons.email,tipo: TypesInput.CORREO,controller: controllerCorreo,)
+                        child: TextFormFieldCustom(hintText: 'ingrese un correo',icono: Icons.email,tipo: TypesInput.CORREO,controller: controllerCorreo,ocultar: false,)
+                      ),
+                      const SizedBox(height: 20,),
+                      Text(
+                        diccionary.diccionario(Strings.initUserName),
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w500
+                        ),
+                      ),
+                      Container(
+                        width: 310,
+                        child: TextFormFieldCustom(hintText: 'ingrese un usuario',icono: Icons.password,tipo: TypesInput.TEXTO,controller: controllerUserName,ocultar:false)
                       ),
                       const SizedBox(height: 20,),
                       Text(
@@ -78,31 +90,33 @@ class _FormRegisterState extends State<FormRegister> {
                       ),
                       Container(
                         width: 310,
-                        child: TextFormFieldCustom(hintText: 'ingrese un correo',icono: Icons.password,tipo: TypesInput.TEXTO,controller: controllerContrasena,)
+                        child: TextFormFieldCustom(hintText: 'ingrese una contraseña',icono: Icons.password,tipo: TypesInput.TEXTO,controller: controllerContrasena,ocultar:true)
                       ),
                       Container(
-                        margin: EdgeInsets.only(top: 55,bottom: 55),
-                        padding: EdgeInsets.only(left: 150),
+                        margin: EdgeInsets.symmetric(vertical: 20),
+                        alignment: Alignment.center,
                         width: 310,
                         child: InkWell(
-                          onTap: (){
+                          onTap: () async {
 
                             if(formKey.currentState!.validate()){                                
                               bloc.add(UserEventCreateAcount(
                                 correo: controllerCorreo.text,
                                 password: controllerContrasena.text
                               ));
+                            }else{
+                              showFlushBar("Formulario", "Verifique los campos");
+                              await Future.delayed(Duration(seconds:2),(){
+                                formKey.currentState!.reset();
+                              });
                             }
                           },
                           child: Container(
-                            width: 99,
-                            height: 35,
+                            width: 125,
+                            height: 45,
                             decoration: const BoxDecoration(
                               color: signInButton,
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20)
-                              )
+                              borderRadius: BorderRadius.all(Radius.circular(20))
                             ),
                             child: Center(
                               child: Text(
@@ -151,10 +165,9 @@ class _FormRegisterState extends State<FormRegister> {
                               width: 59,
                               height: 48,
                               decoration: BoxDecoration(
-                                border:  Border.all(color:signInBox),
-                                  borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20))
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20))
                               ),
                               child: Image.asset(
                                 'assets/images/iconoFacebook.png',
@@ -179,11 +192,10 @@ class _FormRegisterState extends State<FormRegister> {
                               width: 59,
                               height: 48,
                               decoration: BoxDecoration(
-                                border:  Border.all(color:signInBox ),
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20)
-                                  )
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20)
+                                )
                               ),
                               child: Image.asset(
                                 'assets/images/iconoGoogle.png',
@@ -206,5 +218,22 @@ class _FormRegisterState extends State<FormRegister> {
       )
 
     );
+  } 
+  
+  showFlushBar(String titulo, String texto){
+    Flushbar(
+      title:  titulo,
+      message:  texto,
+      duration:  const Duration(seconds: 6),            
+      margin:    const EdgeInsets.only(top: 8, bottom: 55.0, left: 8, right: 8),
+      borderRadius: BorderRadius.circular(8),
+      icon: Icon(
+        Icons.info_outline,
+        size: 28.0,
+        color: Colors.blue[300],
+      ),
+      flushbarPosition: FlushbarPosition.TOP,
+      leftBarIndicatorColor: Colors.blue[300],
+    ).show(context);
   }
 }

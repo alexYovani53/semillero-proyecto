@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:universales_proyecto/repository/firebase_auth_api.dart';
 
-class AuthRepository {
+class FirebaseAuthRepository {
 
   final _firebaseAuthAPI_ = FirebaseAuthAPI();
 
@@ -9,6 +9,10 @@ class AuthRepository {
   Future<UserCredential?> signInFacebook() => _firebaseAuthAPI_.signInFacebook();
 
   Future<void> signOut() => _firebaseAuthAPI_.signOut();
+
+  String get mensajeError => _firebaseAuthAPI_.mensajeError;
+  String get mensajeTitulo => _firebaseAuthAPI_.titulo;
+
 
   Future<User?> registerUsingEmailPassword(
     String name,  
@@ -20,6 +24,11 @@ class AuthRepository {
     String email, 
     String password) => 
     _firebaseAuthAPI_.loginUsingEmailPassword(  email: email,   password: password);
+
+  Future<User?> actualizarPerfil(
+    String? userName, 
+    String? password) => 
+    _firebaseAuthAPI_.actualizarPerfil(  userName: userName,   password: password);
 
 
 }
