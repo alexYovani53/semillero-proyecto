@@ -33,6 +33,7 @@ class _EditProfileState extends State<EditProfile> {
   bool actualizacion  = false;
 
   String nombreUser = "";
+  String photoUrl = "";
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +44,7 @@ class _EditProfileState extends State<EditProfile> {
     theme =Provider.of<ThemeProvider>(context,listen: false);
 
     nombreUser = bloc.sesion!.name;
+    photoUrl = bloc.sesion!.photoURL;
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.startTop,
@@ -303,7 +305,7 @@ class _EditProfileState extends State<EditProfile> {
       child: CircleAvatar(
         radius: (profileHeight/2)-10,
         backgroundColor: Color.fromARGB(255, 255, 255, 255),
-        backgroundImage: getImage("https://scontent-gua1-1.xx.fbcdn.net/v/t39.30808-6/270011001_4394168207379141_2498431562754588565_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=09cbfe&_nc_ohc=aEUaXWH4Zx8AX_zd0cH&_nc_ht=scontent-gua1-1.xx&oh=00_AT-4Oo8_66LMCtK5UPevejHgJjImBxkgbJCjOzdSWrCMlQ&oe=628DDD34"),
+        backgroundImage: getImage(photoUrl),
       )
       ,
     );

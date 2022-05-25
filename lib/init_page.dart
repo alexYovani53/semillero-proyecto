@@ -139,13 +139,13 @@ class _InitPageState extends State<InitPage> with TickerProviderStateMixin {
                   bloc.add(UserEventCarcarData());
 
                   switch (state.runtimeType) {
-                    case UserProfileState:   
+                    case UserPageProfileState:   
                       return getAnimation(Profile(),1);
                       //return Profile();
-                    case UserSettingsState:                          
+                    case UserPageSettingsState:                          
                       return getAnimation(PageSetting(),1);
                       //return PageSetting();
-                    case UserChatState:
+                    case UserPageChatState:
                       return getAnimation(ChatsScreen(),1);
                       //return ChatsScreen();
                     default:

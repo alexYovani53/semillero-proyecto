@@ -151,19 +151,24 @@ class _FormLoginState extends State<FormLogin> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
-                          margin: EdgeInsets.only(top: 15),
-                          width: 59,
-                          height: 48,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                bottomRight: Radius.circular(20))
-                          ),
-                          child: Image.asset(
-                            'assets/images/iconoFacebook.png',
-                            width: 20,
-                            height: 21,
+                        InkWell(
+                          onTap: (){                            
+                            bloc.add(userEventLoginFacebook());
+                          },
+                          child: Container(
+                            margin: EdgeInsets.only(top: 15),
+                            width: 59,
+                            height: 48,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20))
+                            ),
+                            child: Image.asset(
+                              'assets/images/iconoFacebook.png',
+                              width: 20,
+                              height: 21,
+                            ),
                           ),
                         ),
                         InkWell(

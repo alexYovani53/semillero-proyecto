@@ -21,7 +21,16 @@ class UserCard extends StatelessWidget {
               CircleAvatar(
                 radius: 30,
                 backgroundImage: usuario.urlImage!=""?NetworkImage(usuario.urlImage): AssetImage("assets/images/usericono.png") as ImageProvider,
-              ),
+              ),if(usuario.estado)...[
+                Positioned(
+                  top: 0,
+                  left: 0,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.green,
+                    radius: 9,
+                  ),
+                )
+              ],
               if(usuario.selected)...[
                 Positioned(
                   bottom: -4,

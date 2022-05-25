@@ -31,8 +31,8 @@ class ChatCard extends StatelessWidget {
                child: Column(
                  crossAxisAlignment: CrossAxisAlignment.start,
                  children: [             
-                   Text("AlexYovani"),
-                   Text("21 de mayo")
+                   Text("General"),
+                   Text("fecha ----")
                  ],
                ),
              ),

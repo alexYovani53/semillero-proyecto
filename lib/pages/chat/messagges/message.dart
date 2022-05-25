@@ -39,7 +39,7 @@ class Message extends StatelessWidget {
         borderRadius: BorderRadius.circular(30)
       ),
       child: Text(
-        "hola",
+        "Bienvenido",
         style: TextStyle(
           color: isSender 
             ? Colors.white

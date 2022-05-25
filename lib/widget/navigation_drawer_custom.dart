@@ -59,7 +59,7 @@ class NavigationDrawerCustom extends StatelessWidget {
           SizedBox(height: 12),
           Text(
             bloc.sesion?.name??"",
-            style:TextStyle(fontSize: 28, color: Colors.white)
+            style:TextStyle(fontSize: 22, color: Colors.white,overflow: TextOverflow.ellipsis)
           ),          
           Text(
             bloc.sesion?.email??"",
@@ -78,7 +78,7 @@ class NavigationDrawerCustom extends StatelessWidget {
         children: [
           ListTile(
             leading: const Icon(Icons.home_outlined),
-            title: const Text('Profile'),
+            title: const Text('Perfil'),
             onTap: (){
               
               Navigator.pop(context);
@@ -168,7 +168,7 @@ class NavigationDrawerCustom extends StatelessWidget {
           ),
           const Center(
             child: Text(
-              'Version 1.0.0',
+              'Version 1.0.1',
               style: TextStyle(
                 fontWeight: FontWeight.w500,
                 fontStyle: FontStyle.italic,
