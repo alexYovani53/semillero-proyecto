@@ -1,9 +1,13 @@
 
 
+
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:universales_proyecto/model/mesaje_model.dart';
+import 'package:universales_proyecto/model/user_chat.dart';
 import 'package:universales_proyecto/repository/firebase_chanel_repository.dart';
 import 'package:universales_proyecto/repository/firebase_users_repository.dart';
 import 'package:uuid/uuid.dart';
@@ -17,6 +21,7 @@ class CanalBloc extends Bloc<CanalEvent,CanalState>{
   final firebaseChanelRepository = FirebaseChanelRepository();
 
   
+  Future<DataSnapshot> infoUser(String uid) => firebaseUserRepository.infoUser(uid);
   Future<DataSnapshot> listUser() => firebaseUserRepository.listUser();
 
   DatabaseReference streamCanalesUser (String uid) => firebaseUserRepository.canalesUsuario(uid);
@@ -29,9 +34,31 @@ class CanalBloc extends Bloc<CanalEvent,CanalState>{
   Stream<DatabaseEvent> streamMensajesOrdenados2(String idCanal) => firebaseChanelRepository.streamMensajesOrdenados2(idCanal);
 
 
+  static List<UserChat> usuariosGlobalChats = [
+    UserChat(uid: "", change: false, correo: "", estado: false, nombre: "", urlImage: "", canales: {})
+  ];
+
+  List<UserChat> get lista => usuariosGlobalChats;
 
   CanalBloc():super(CanalInitState()){
 
+
+
+    on<CanalInitStream>((event, emit) async {
+      await firebaseChanelRepository.detenerSuscripcion();
+      firebaseChanelRepository.initOyente2(event.idCanal);
+    });
+
+    on<CanalEliminarOyentes>((event, emit) => {
+      firebaseChanelRepository.detenerSuscripcion()
+    });
+
+    on<CanalActualizarMensaje>((event, emit){
+
+      final mensaje = event.mensaje;
+      firebaseChanelRepository.actualizarMensaje(mensaje, event.idCanal);
+
+    });
     on<CanalEnviarMensajeEvent>((event, emit){
 
       final mensaje = MesajeModel(
@@ -47,10 +74,8 @@ class CanalBloc extends Bloc<CanalEvent,CanalState>{
 
     });
 
-    on<CanalAgregarUsuarioEvent>((event,emit) async{
-      
+    on<CanalAgregarUsuarioEvent>((event,emit) async{      
       Map<String,dynamic> usuarios = {event.uidUsuario:event.uidUsuario};
-
       await firebaseChanelRepository.actualizarUsuarioCanal(
         usuarios,
         event.idCanal,
@@ -74,6 +99,11 @@ class CanalBloc extends Bloc<CanalEvent,CanalState>{
 
   }
 
+  @override
+  Future<void> close(){
+    firebaseChanelRepository.detenerSuscripcion();
+    return super.close();
+  }
 
 
 }

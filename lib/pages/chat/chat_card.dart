@@ -105,7 +105,7 @@ class ChatCard extends StatelessWidget {
             }
 
           default:
-            return Center(child: CircularProgressIndicator(),);
+            return const Center(child: CircularProgressIndicator(),);
         }
       },
     );

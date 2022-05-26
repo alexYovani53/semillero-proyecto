@@ -6,6 +6,18 @@ abstract class CanalEvent extends Equatable {
   List<Object?> get props =>[];
 }
 
+class CanalActualizarMensaje extends CanalEvent{
+  String idCanal;
+  MesajeModel mensaje;
+  CanalActualizarMensaje({
+    required this.idCanal,
+    required this.mensaje
+  });
+  
+ @override
+  List<Object?> get props =>[idCanal,mensaje];
+}
+
 class CanalEnviarMensajeEvent extends CanalEvent{
   String texto;
   String type;
@@ -57,3 +69,19 @@ class CanalEliminUsuarioEvent extends  CanalEvent{
   List<Object?> get props => [uidUsuario,uidLogueado,idCanal,nombreLogueado];
 
 }
+
+class CanalInitStream extends CanalEvent{
+  String idCanal;
+  CanalInitStream({
+    required this.idCanal
+  });
+  @override
+  List<Object?> get props => [idCanal];
+}
+
+class CanalEliminarOyentes extends CanalEvent{
+
+  @override
+  List<Object?> get props => [];
+}
+

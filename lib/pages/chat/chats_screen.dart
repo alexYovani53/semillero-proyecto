@@ -7,10 +7,12 @@ import 'package:provider/provider.dart';
 import 'package:universales_proyecto/bloc/canal/canal_bloc.dart';
 import 'package:universales_proyecto/bloc/user/user_bloc.dart';
 import 'package:universales_proyecto/localizations/localizations.dart';
+import 'package:universales_proyecto/model/chanel_model.dart';
 import 'package:universales_proyecto/pages/chat/chat_card.dart';
 import 'package:universales_proyecto/pages/chat/group/group_page.dart';
 import 'package:universales_proyecto/pages/chat/messagges/message_screen.dart';
 import 'package:universales_proyecto/provider/languaje_provider.dart';
+import 'package:universales_proyecto/provider/theme_provider.dart';
 import 'package:universales_proyecto/utils/app_string.dart';
 import 'package:universales_proyecto/utils/config.dart';
 import 'package:universales_proyecto/widget/navigation_drawer_custom.dart';
@@ -32,6 +34,7 @@ class _ChatsScreenState extends State<ChatsScreen> {
 
   late UserBloc bloc;
   late LocalizationsApp diccionario;
+  late ThemeProvider theme;
 
   List<String> canales = [];
 
@@ -42,6 +45,8 @@ class _ChatsScreenState extends State<ChatsScreen> {
     
     final languajeProvider = Provider.of<LanguajeProvider>(context);
     diccionario = LocalizationsApp(languajeProvider.getLanguaje);
+
+    theme = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       appBar: buildAppBar(),
@@ -119,6 +124,18 @@ class _ChatsScreenState extends State<ChatsScreen> {
                           canales.add(key);
                         }
                       });
+
+                      List<String> eliminar = [];
+                      canales.forEach((element) {
+                        if(!canalesRecived.containsKey(element)){
+                          eliminar.add(element);
+                        }                        
+                      });   
+
+                      eliminar.forEach((element) {
+                        canales.remove(element);
+                      });               
+
 
                       return crearLista();                     
                     }

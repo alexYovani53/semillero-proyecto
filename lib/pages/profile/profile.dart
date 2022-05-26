@@ -234,9 +234,7 @@ class _ProfileState extends State<Profile> {
                 Text(diccionario.diccionario(Strings.profileConfigButton))
               ],
             ),
-            IconButton(onPressed: (){
-              
-            }, icon: Icon(Icons.arrow_right))
+            Icon(Icons.arrow_right)
           ],
         ),
       ),

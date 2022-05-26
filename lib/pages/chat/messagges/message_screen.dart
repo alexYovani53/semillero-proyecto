@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:universales_proyecto/bloc/canal/canal_bloc.dart';
 import 'package:universales_proyecto/model/chanel_model.dart';
 import 'package:universales_proyecto/model/mesaje_model.dart';
 import 'package:universales_proyecto/pages/chat/canal_info/canal_info.dart';
 import 'package:universales_proyecto/pages/chat/messagges/message.dart';
+import 'package:universales_proyecto/provider/message_provider.dart';
 import 'package:universales_proyecto/utils/config.dart';
 import 'package:universales_proyecto/widget/splash_screen.dart';
 
@@ -36,17 +38,22 @@ class MessageScreen extends StatefulWidget {
 class _MessageScreenState extends State<MessageScreen> {
 
   List<MesajeModel> mensajes = [];
-  final controllerMensaje = TextEditingController();
+  //final controllerMensaje = TextEditingController();
+
+  MessageProvider msProvider = MessageProvider();
 
   @override
   Widget build(BuildContext context) {
+
+    widget.canalBloc.add(CanalInitStream(idCanal:widget.idCanal));
+
     return Scaffold(
       appBar: buildAppBar(context),
-      body: buildBody2(context),
+      body: buildBody(context),
     );
   }
 
-  Widget buildBody2(BuildContext context){
+  Widget buildBody(BuildContext context){
     return FutureBuilder(
       future: widget.canalBloc.recuperarMensajesChat(widget.idCanal),
       builder: (context,AsyncSnapshot snapshot){
@@ -67,50 +74,36 @@ class _MessageScreenState extends State<MessageScreen> {
                   mensajes.add(actual);
                 }
               }
-              return Column(
-                
-                children: [
-                  // Spacer(),
-                  StreamBuilder<Object>(
-                    stream: widget.canalBloc.streamMensajesOrdenados2(widget.idCanal),
-                    builder: (context, AsyncSnapshot snapshot) {
-                      switch (snapshot.connectionState){
-                        case ConnectionState.done:
-                        case ConnectionState.active:
-                          if(!snapshot.hasData || snapshot.hasError){
-                            return SplashScree();
-                          }else{
-                            final data = snapshot.data.snapshot.value;
-                            final dataJson = json.decode(json.encode(data));
-                            final mensaje = MesajeModel.fromJson(dataJson);
-                            mensaje.idMensaje = snapshot.data.snapshot.key;
-                            if(mensajes.where((element) => element.idMensaje == mensaje.idMensaje).isEmpty){
-                                 mensajes.add(mensaje);
-                            }
+              return StreamBuilder<Object>(
+                stream: widget.canalBloc.streamMensajesOrdenados2(widget.idCanal),
+                builder: (context, AsyncSnapshot snapshot) {
+                  switch (snapshot.connectionState){
+                    case ConnectionState.done:
+                    case ConnectionState.active:
+                      if(!snapshot.hasData || snapshot.hasError){
+                        return SplashScree();
+                      }else{
 
-                            mensajes.sort((a,b)=> b.fechaEnvio.compareTo(a.fechaEnvio));
-                            return Expanded(
-                                child: Container(
-                                  color:Colors.lightGreen,
-                                  padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                                  child: ListView.builder(
-                                    reverse: true,
-                                    itemCount: mensajes.length,
-                                    itemBuilder: (context,index) => Message(
-                                      mensaje:mensajes[index],
-                                      isSender:mensajes[index].usuario == widget.uidUser? true:false
-                                    ),
-                                  ),
-                                ),
-                              );         
-                          }
-                        default:
-                          return CircularProgressIndicator();
+                        final data = snapshot.data.snapshot.value;
+                        final dataJson = json.decode(json.encode(data));
+                        final mensaje = MesajeModel.fromJson(dataJson);
+                        mensaje.idMensaje = snapshot.data.snapshot.key;
+
+                        final encontrado = mensajes.where((element) => element.idMensaje == mensaje.idMensaje);
+                        if(encontrado.isEmpty){
+                          mensajes.add(mensaje);
+                        }else{
+                          encontrado.first.fechaEdicion = mensaje.fechaEdicion;
+                          encontrado.first.texto = mensaje.texto;
+                        }
+
+                        mensajes.sort((a,b)=> b.fechaEnvio.compareTo(a.fechaEnvio));
+                        return buildWidtProvider();    
                       }
-                    }
-                  ),    
-                  buildInput(context),
-                ],
+                    default:
+                      return CircularProgressIndicator();
+                  }
+                }
               );
             }
             
@@ -123,6 +116,42 @@ class _MessageScreenState extends State<MessageScreen> {
     );
   }
 
+  Widget buildWidtProvider(){
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: msProvider)
+      ],
+      child: Consumer<MessageProvider>(
+        builder: (context, MessageProvider value, child) {
+          return Column(
+            children: [
+              Expanded(
+                child: InkWell(
+                  onTap: (){
+                    value.updateMesage(null);
+                  },            
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                    child: ListView.builder(
+                      reverse: true,
+                      itemCount: mensajes.length,
+                      itemBuilder: (context,index) => Message(
+                        mensaje:mensajes[index],
+                        isSender:mensajes[index].usuario == widget.uidUser? true:false
+                      ),
+                    ),
+                  ),
+                ),
+              ),              
+              buildInput(context),
+            ],
+          );    
+        
+        },
+      ),
+    );
+  }
+
   AppBar buildAppBar(BuildContext context){
     return AppBar(
         automaticallyImplyLeading: false,
@@ -131,6 +160,7 @@ class _MessageScreenState extends State<MessageScreen> {
           children: [
             InkWell(
               onTap: (){
+                widget.canalBloc.add(CanalEliminarOyentes());
                 Navigator.pop(context);
               },
               child: const Icon(Icons.arrow_back_ios),
@@ -179,6 +209,8 @@ class _MessageScreenState extends State<MessageScreen> {
   }
 
   Widget buildInput(BuildContext context){
+
+    
     return Container(
       padding: const EdgeInsets.symmetric(
         horizontal: kDefaultPadding,
@@ -214,7 +246,7 @@ class _MessageScreenState extends State<MessageScreen> {
                     SizedBox(width: kDefaultPadding / 4,),
                     Expanded(
                       child: TextField(
-                        controller: controllerMensaje,
+                        controller: msProvider.controller,
                         decoration: const InputDecoration(
                           hintText: "Type message",
                           border: InputBorder.none
@@ -230,17 +262,29 @@ class _MessageScreenState extends State<MessageScreen> {
               padding: EdgeInsets.only(left: 5),
               child: FloatingActionButton(
                 onPressed: (){
-                  if(controllerMensaje.text.isEmpty) return;
-                  widget.canalBloc.add(
-                    CanalEnviarMensajeEvent(
-                      idCanal: widget.idCanal,
-                      texto: controllerMensaje.text, 
-                      type: "texto", 
-                      usuario: widget.uidUser
-                    )
-                  );
+                  if(msProvider.controller.text.isEmpty) return;
 
-                  controllerMensaje.clear();
+                  if(msProvider.msSelected !=null){
+                    msProvider.msSelected!.texto = msProvider.controller.text;
+                    widget.canalBloc.add(
+                      CanalActualizarMensaje(
+                        idCanal: widget.idCanal,
+                        mensaje: msProvider.msSelected!
+                      )
+                    );
+                    msProvider.updateMesage(null);
+                  }else{
+                    widget.canalBloc.add(
+                      CanalEnviarMensajeEvent(
+                        idCanal: widget.idCanal,
+                        texto: msProvider.controller.text, 
+                        type: "texto", 
+                        usuario: widget.uidUser
+                      )
+                    );
+                  }
+
+                  msProvider.controller.clear();
                 },
                 child: Icon(Icons.send_rounded)
               ),

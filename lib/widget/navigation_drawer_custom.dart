@@ -46,7 +46,7 @@ class NavigationDrawerCustom extends StatelessWidget {
 
   Widget buildHeader(BuildContext context) {
     return Container(
-      color: Theme.of(context).colorScheme.primary,
+      color: theme.getTheme==ThemeMode.light? kContentColorLightTheme2:Color.fromARGB(255, 47, 47, 56),
       padding: EdgeInsets.only(
         top:24 + MediaQuery.of(context).padding.top,
         bottom:24

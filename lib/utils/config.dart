@@ -27,3 +27,6 @@ const kContentColorDarkTheme = Color(0xFFF5FCF9);
 const kWarninngColor = Color(0xFFF3BB1C);
 const kErrorColor = Color.fromARGB(255, 55, 218, 240);
 const kBackgroundColor = Color.fromARGB(255, 30, 29, 41);
+
+
+const kContentColorLightTheme2 =Color.fromARGB(255, 41, 41, 73);

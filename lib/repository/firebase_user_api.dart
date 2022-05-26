@@ -32,6 +32,11 @@ class FirebaseUserApi {
     return await database.ref("Usuarios").get();
   }
 
+  Future<DataSnapshot> infoUser(String uid) async {
+    return await database.ref("Usuarios/$uid").get();
+  }
+
+
   actualizarCanalUsuario(Map<String,dynamic> usuarios,String canal) async {    
     final usuariosDB = database.ref("Usuarios");    
     usuarios.forEach((key, value) {

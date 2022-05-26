@@ -12,8 +12,10 @@ class FirebaseChanelApi {
   FirebaseDatabase database = FirebaseDatabase.instance;
   FirebaseUserApi userApi = FirebaseUserApi();
 
-  var controller = StreamController<DatabaseEvent>();
+  StreamSubscription<DatabaseEvent>? subscription1;
+  StreamSubscription<DatabaseEvent>? subscription2;
 
+  StreamController<DatabaseEvent> controller = StreamController<DatabaseEvent>();
   var uuid = const Uuid();
    
   Future<void> crearCanal(ChanelModel chat, String idUser)  async{
@@ -38,19 +40,16 @@ class FirebaseChanelApi {
   }
 
   Future<void> actualizarUsuarioCanal(Map<String,dynamic> usuarios,String idCanal,bool agregar,uidLogueado,nombreLogueado) async {    
-    final usuariosDB = database.ref("Canales/$idCanal/usuarios");    
-    
+    final usuariosDB = database.ref("Canales/$idCanal/usuarios");        
     usuarios.forEach((key, value) {
       if(agregar){
         usuariosDB.update({
           key:key
         });
       }else{
-        print("ingreso aca");
         usuariosDB.child(key).remove();
       }
     });
-
     userApi.actualizarUsuarioCanal2(usuarios,idCanal,agregar);
 
     final mensaje = MesajeModel(
@@ -61,7 +60,6 @@ class FirebaseChanelApi {
       type: "notification", 
       idMensaje: uuid.v4()
     );
-
     enviarMensaje(mensaje, idCanal);
   }
 
@@ -72,6 +70,29 @@ class FirebaseChanelApi {
     });
   }
 
+  Future<void> actualizarMensaje(MesajeModel mensaje, String idCanal) async{
+    if(mensaje.idMensaje==""){
+      print("errrrrrrrrrrrrrrrrrrrrrrrroooor");
+      return;
+    }
+    mensaje.fechaEdicion = DateTime.now().millisecondsSinceEpoch;
+    final list = database.ref("Canales").child(idCanal);
+    await list.child("mensajes").update({
+      mensaje.idMensaje:mensaje.toJson()
+    });
+  }
+
+  Future<DataSnapshot> recuperarMensajesChat(String idCanal) async {
+    return database.ref("Canales/$idCanal/mensajes").orderByChild("fecha_envio").get();
+  }
+
+  Future<void> detenerSuscripcion() async{
+    if(subscription1!=null) await subscription1!.cancel();      
+    if(subscription2!=null) await subscription1!.cancel();
+    controller = StreamController.broadcast();
+  }
+
+  //referencias
   DatabaseReference canalPorId(String idCanal) {
     return database.ref("Canales").child(idCanal);
   }
@@ -80,41 +101,27 @@ class FirebaseChanelApi {
     return database.ref("Canales").child(idCanal).child("mensajes");
   }
 
-  Future<DataSnapshot> recuperarMensajesChat(String idCanal) async {
-
-    final a =  database.ref("Canales/$idCanal/mensajes");
-    final o = await a.orderByChild("fecha_envio").once(DatabaseEventType.value);
-    print(o.snapshot.value);
-
-    return database.ref("Canales/$idCanal/mensajes").orderByChild("fecha_envio").get();
-  }
-
-
-  // FORMA UNO DE ESCUCHAR LOS MENSAJES 
-  void initOyente(String idCanal){
+  void initOyente2(String idCanal){   
+    controller = StreamController<DatabaseEvent>();
     final ref = database.ref("Canales").child(idCanal).child("mensajes");
-    ref.onChildAdded.listen((event){
+    
+    subscription1 = ref.orderByChild("fecha_envio").onChildAdded.listen((event) {
+      if(controller.isClosed) return;
+      controller.add(event);
+    });
+
+    subscription2 = ref.orderByChild("fecha_envio").onChildChanged.listen((event) {
+      if(controller.isClosed) return;
       controller.add(event);
     });
   }
 
-   void initOyente2(String idCanal){
-    final ref = database.ref("Canales").child(idCanal).child("mensajes");
-  }
-
-  Stream<DatabaseEvent> streamMensajesOrdenados(String idCanal) {
+  Stream<DatabaseEvent> streamMensajesOrdenados2(String idCanal) {
     return controller.stream;
   }
 
   // FORMA 2 DE ESCUCHAR LOS MENSAJES. 
-  Stream<DatabaseEvent> streamMensajesOrdenados2 (String idCanal){    
-
-    // final ref2 = database.ref("Canales").child(idCanal).child("mensajes");
-    // ref2.orderByChild("fecha_envio").onChildAdded.listen((event){
-    //   print(event.snapshot.key);
-    // });
-
-
+  Stream<DatabaseEvent> streamMensajesOrdenados (String idCanal){    
     final ref = database.ref("Canales").child(idCanal).child("mensajes");
     return ref.orderByChild("fecha_envio").onChildAdded;
   }

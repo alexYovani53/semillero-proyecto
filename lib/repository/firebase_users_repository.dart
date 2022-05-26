@@ -12,4 +12,5 @@ class FirebaseUsersRepository {
   DatabaseReference canalesUsuario(uid) => api.usuariosCanales(uid);
 
   Future<DataSnapshot> listUser() => api.listUser();
+  Future<DataSnapshot> infoUser(String uid) => api.infoUser(uid);
 }

@@ -4,10 +4,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:universales_proyecto/bloc/canal/canal_bloc.dart';
 import 'package:universales_proyecto/model/user_chat.dart';
 import 'package:universales_proyecto/pages/chat/canal_info/user_card_channel_edit.dart';
 import 'package:universales_proyecto/pages/chat/group/user_card.dart';
+import 'package:universales_proyecto/provider/theme_provider.dart';
 import 'package:universales_proyecto/utils/config.dart';
 import 'package:universales_proyecto/widget/splash_screen.dart';
 
@@ -33,7 +35,9 @@ class CanalInfo extends StatefulWidget {
 }
 
 class _CanalInfoState extends State<CanalInfo> {
+  
   late CanalBloc bloc;
+  late ThemeProvider theme;
 
   List<UserChat> usuarios = [];
 
@@ -45,6 +49,7 @@ class _CanalInfoState extends State<CanalInfo> {
   Widget build(BuildContext context) {
     
     bloc = BlocProvider.of<CanalBloc>(context);
+    theme = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +66,7 @@ class _CanalInfoState extends State<CanalInfo> {
         centerTitle: true,
       ),
       body: Container(
-        color:Color.fromARGB(255, 231, 227, 227),
+        color:theme.getTheme==ThemeMode.light? Color.fromARGB(255, 231, 227, 227):null,
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: ListView(
@@ -83,7 +88,7 @@ class _CanalInfoState extends State<CanalInfo> {
 
   Widget buildParticipantes(BuildContext context){
     return Container(
-      color: Colors.white,
+      color: theme.getTheme==ThemeMode.light?Colors.white:kContentColorLightTheme2,
       padding: EdgeInsets.symmetric(horizontal:kDefaultPadding),
       child: Column(
         children: [        
@@ -145,7 +150,7 @@ class _CanalInfoState extends State<CanalInfo> {
 
   Widget buildEncabezado(){
     return Container(
-      color: Colors.white,
+      color: theme.getTheme==ThemeMode.light?Colors.white:kContentColorLightTheme2,
       child: Column(
         children: [
           const SizedBox(height: kDefaultPadding/2,),
@@ -201,7 +206,7 @@ class _CanalInfoState extends State<CanalInfo> {
 
   Widget buildConfiguracion(){
     return  Container(
-      color: Colors.white,
+      color: theme.getTheme==ThemeMode.light?Colors.white:kContentColorLightTheme2,
       child: Column(
         children: [
           Row(
