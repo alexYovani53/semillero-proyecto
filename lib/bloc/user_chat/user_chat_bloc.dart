@@ -14,7 +14,6 @@ class UserChatBloc extends Bloc<UserChatEvent,UserChatState>{
 
   DatabaseReference get usuarios => user_chat_repository.usuarios();
 
-  Future<DataSnapshot> listUser() => user_chat_repository.listUser();
   
   UserChatBloc() : super(UserChatInitState()){
     on((event, emit) {

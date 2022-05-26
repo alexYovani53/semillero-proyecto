@@ -28,16 +28,12 @@ class FirebaseUserApi {
     }
   }
 
-  DatabaseReference usuarios() {
-    return database.ref("Usuarios");
-  } 
-
   Future<DataSnapshot> listUser() async {
     return await database.ref("Usuarios").get();
   }
 
-  actualizarUsuarioCanal(Map<String,dynamic> usuarios,String canal) async {
-    final usuariosDB = database.ref("Usuarios");
+  actualizarCanalUsuario(Map<String,dynamic> usuarios,String canal) async {    
+    final usuariosDB = database.ref("Usuarios");    
     usuarios.forEach((key, value) {
       final usuarioRef = usuariosDB.child(key);
       usuarioRef.child("Canales").update({
@@ -46,6 +42,32 @@ class FirebaseUserApi {
     });
   }
 
+  actualizarUsuarioCanal2(Map<String,dynamic> usuarios,String canal,bool agregar) async {    
+    final usuariosDB = database.ref("Usuarios");    
+    usuarios.forEach((key, value) {
+      final usuarioRef = usuariosDB.child(key);
+      if(agregar){
+        usuarioRef.child("Canales").update({
+          canal:canal
+        });
+      }else{
+        usuarioRef.child("Canales").child(canal).remove();
+      }
+    });
+  }
+
+  
+  
+  // Streams
+  DatabaseReference usuarios() {
+    return database.ref("Usuarios");
+  } 
+
+  DatabaseReference usuariosCanales(String uid){
+    print("uid >>>>>----------------------------- $uid");
+    return database.ref("Usuarios").child(uid).child("Canales");
+  }
+  
   
 
 }

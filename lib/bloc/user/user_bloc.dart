@@ -30,6 +30,7 @@ class UserBloc extends Bloc<UserEvent,UserState>{
   UserBloc( ) : super(UserInitState()){
 
     on<UserEvent>((event, emit)  async {
+      print(event.runtimeType.toString());
     });
 
     on<userEventUpdateProfile>((event, emit)  async {

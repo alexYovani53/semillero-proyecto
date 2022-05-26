@@ -20,8 +20,8 @@ const Color inputBorder = Color(0xFF707070);
 const Color textInput = Color(0xFFFFFFFF);
 
 const kDefaultPadding = 20.0;
-const kPrimaryColor = Color(0xFF00BF6D);
-const kSecondaryColor = Color(0xFFFE9901);
+const kPrimaryColor = Color.fromARGB(255, 11, 155, 6);
+const kSecondaryColor = Color.fromARGB(255, 8, 133, 8);
 const kContentColorLightTheme = Color(0xFF1D1D35);
 const kContentColorDarkTheme = Color(0xFFF5FCF9);
 const kWarninngColor = Color(0xFFF3BB1C);

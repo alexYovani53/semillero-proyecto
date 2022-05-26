@@ -11,6 +11,8 @@ import 'package:universales_proyecto/pages/profile/profile.dart';
 import 'package:universales_proyecto/pages/settings/page_setting.dart';
 import 'package:universales_proyecto/provider/languaje_provider.dart';
 import 'package:universales_proyecto/provider/theme_provider.dart';
+import 'package:universales_proyecto/utils/app_string.dart';
+import 'package:universales_proyecto/utils/config.dart';
 class NavigationDrawerCustom extends StatelessWidget {
   
   NavigationDrawerCustom({ Key? key }) : super(key: key);
@@ -28,7 +30,6 @@ class NavigationDrawerCustom extends StatelessWidget {
     theme =Provider.of<ThemeProvider>(context,listen: false );
     bloc = BlocProvider.of<UserBloc>(context,listen: false );
 
-    bloc.add(UserEventCarcarData());
 
     return Drawer(
       child: SingleChildScrollView(
@@ -45,21 +46,32 @@ class NavigationDrawerCustom extends StatelessWidget {
 
   Widget buildHeader(BuildContext context) {
     return Container(
-      color: theme.getTheme==ThemeMode.light? Colors.blue.shade700:Colors.grey.shade500,
+      color: Theme.of(context).colorScheme.primary,
       padding: EdgeInsets.only(
         top:24 + MediaQuery.of(context).padding.top,
         bottom:24
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CircleAvatar(
             radius: 52,
             backgroundImage: getImage(bloc.sesion?.photoURL??""),
           ),
           SizedBox(height: 12),
-          Text(
-            bloc.sesion?.name??"",
-            style:TextStyle(fontSize: 22, color: Colors.white,overflow: TextOverflow.ellipsis)
+          Container(
+            padding: EdgeInsets.all(kDefaultPadding/2),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Flexible(
+                  child: Text(
+                    bloc.sesion?.name??"",
+                    style:TextStyle(fontSize: 22, color: Colors.white)
+                  ),
+                ),
+              ],
+            ),
           ),          
           Text(
             bloc.sesion?.email??"",
@@ -77,8 +89,8 @@ class NavigationDrawerCustom extends StatelessWidget {
         runSpacing: 16,
         children: [
           ListTile(
-            leading: const Icon(Icons.home_outlined),
-            title: const Text('Perfil'),
+            leading: const Icon(Icons.accessibility_rounded),
+            title:  Text(diccionary.diccionario(Strings.navItem1)),
             onTap: (){
               
               Navigator.pop(context);
@@ -100,8 +112,8 @@ class NavigationDrawerCustom extends StatelessWidget {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.home_outlined),
-            title: const Text('Chat'),
+            leading: const Icon(Icons.message_sharp),
+            title:  Text(diccionary.diccionario(Strings.navItem2)),
             onTap: (){
               
               Navigator.pop(context);
@@ -123,7 +135,7 @@ class NavigationDrawerCustom extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.settings_applications),
-            title: const Text('Configuraciones'),
+            title:  Text(diccionary.diccionario(Strings.navItem3)),
             onTap: (){
               Navigator.pop(context);
               bloc.add(UserEventPageSettings());
@@ -163,7 +175,7 @@ class NavigationDrawerCustom extends StatelessWidget {
               )              
             ),
           ),          
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           const Center(

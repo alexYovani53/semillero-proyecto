@@ -5,11 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:universales_proyecto/bloc/user/user_bloc.dart';
+import 'package:universales_proyecto/localizations/localizations.dart';
 import 'package:universales_proyecto/model/chanel_model.dart';
 import 'package:universales_proyecto/model/user_chat.dart';
 import 'package:universales_proyecto/pages/chat/group/userAvatar.dart';
+import 'package:universales_proyecto/provider/languaje_provider.dart';
 import 'package:universales_proyecto/provider/theme_provider.dart';
 import 'package:universales_proyecto/repository/firebase_chanel_repository.dart';
+import 'package:universales_proyecto/utils/app_string.dart';
 import 'package:universales_proyecto/utils/config.dart';
 
 class ConfirmGroup extends StatefulWidget {
@@ -25,6 +28,8 @@ class ConfirmGroup extends StatefulWidget {
 class _ConfirmGroupState extends State<ConfirmGroup> {
 
   late ThemeProvider theme;
+  late LocalizationsApp diccionario;
+
   final formKey = GlobalKey<FormState>();
   final contollerTitle = TextEditingController();
   final contollerDescripcion = TextEditingController();
@@ -35,15 +40,17 @@ class _ConfirmGroupState extends State<ConfirmGroup> {
     final userBloc = BlocProvider.of<UserBloc>(context);
     theme = Provider.of<ThemeProvider>(context);
 
+    
+    final languajeProvider = Provider.of<LanguajeProvider>(context);
+    diccionario = LocalizationsApp(languajeProvider.getLanguaje);
+
     return Scaffold(
       appBar: AppBar(        
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
         title: Text(
-          "Nuevo canal",
+          diccionario.diccionario(Strings.groupTitlePage),
           style: TextStyle(
             fontSize: 18.0,
-            color:Colors.white
+            color:theme.getTheme==ThemeMode.light?Colors.black: Colors.white
           ),
         ),
       ),
@@ -55,15 +62,15 @@ class _ConfirmGroupState extends State<ConfirmGroup> {
             final fecha = DateTime.now().millisecondsSinceEpoch;
             final canal = ChanelModel(
               nombre: contollerTitle.text, 
-              administradore: {userBloc.sesion!.uid:userBloc.sesion!.uid},
+              administradores: {userBloc.sesion!.uid:userBloc.sesion!.uid},
               creador: userBloc.sesion!.uid, 
               descripcion: contollerDescripcion.text, 
               fechaCreacion: fecha, 
-              mensajes: {}, 
+              mensajes: [], 
               usuarios: UserChat.listToJson(widget.seleccionados)
             );
             final repo = FirebaseChanelRepository();
-            repo.crearCanal(canal);
+            repo.crearCanal(canal,userBloc.sesion!.uid);
 
             Navigator.pop(context,true);
 
@@ -84,6 +91,7 @@ class _ConfirmGroupState extends State<ConfirmGroup> {
       body: SingleChildScrollView(
         child: Container(
           height: MediaQuery.of(context).size.height,
+          padding:EdgeInsets.only(top: kDefaultPadding),
           decoration: BoxDecoration(
             color: theme.getTheme ==ThemeMode.light?Color.fromARGB(255, 241, 232, 232):null,
           ),
@@ -94,6 +102,7 @@ class _ConfirmGroupState extends State<ConfirmGroup> {
               children: [
                 Container(
                   height: 150,
+                  padding:EdgeInsets.only(top: kDefaultPadding),
                   decoration: BoxDecoration(
                     color:theme.getTheme ==ThemeMode.light?Colors.white:kBackgroundColor,
                     boxShadow: [
@@ -124,9 +133,9 @@ class _ConfirmGroupState extends State<ConfirmGroup> {
                             ),
                             child: TextFormField(
                               controller: contollerTitle,
-                              decoration: const InputDecoration(
+                              decoration: InputDecoration(
                                 border: UnderlineInputBorder(),
-                                hintText: "Escribe el asunto aquí"
+                                hintText: diccionario.diccionario(Strings.groupTitle),
                               ),
                               validator: (value){
                                 if(value == null || value.isEmpty) return "Ingrese un titulo";
@@ -140,9 +149,9 @@ class _ConfirmGroupState extends State<ConfirmGroup> {
                         padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
                         child: TextFormField(
                           controller: contollerDescripcion,
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             border: UnderlineInputBorder(),
-                            hintText: "Escribe la descripcion"
+                            hintText: diccionario.diccionario(Strings.groupDescription),
                           ),
                           validator: (value){
                             if(value == null || value.isEmpty) return null;
@@ -156,9 +165,11 @@ class _ConfirmGroupState extends State<ConfirmGroup> {
                 const SizedBox(
                   height: 30,
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.symmetric(horizontal: kDefaultPadding, vertical: kDefaultPadding/2),
-                  child: Text("Participantes: 1"),
+                  child: Text(
+                    diccionario.diccionario(Strings.groupParticipantes) +":  "+ widget.seleccionados.length.toString()
+                  ),
                 ),
                 Container(
                   height: 350,

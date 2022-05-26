@@ -64,17 +64,25 @@ class _GroupPageState extends State<GroupPage> {
                       return const SplashScree();
                     }else{
                       Map<dynamic, dynamic> usuarios = snapshot.data.snapshot.value;
+                      
                       usuarios.forEach((key, value) {
+                        
                         Map<String,dynamic> data = json.decode(json.encode(value));                        
                         UserChat us = UserChat.fromJson(data);
                         us.uid = key;
                         
                         if(key == uid){
-                          if(group.where((element) => element.uid == key).isEmpty) group.add(us);
-                          else group.where((element) => element.uid == key).first.estado = us.estado;
+                          if(group.where((element) => element.uid == key).isEmpty) {
+                            group.add(us);
+                          } else {
+                            group.where((element) => element.uid == key).first.estado = us.estado;
+                          }
                         }else{
-                          if( usuariosData.where((element) => element.uid == key).isEmpty) usuariosData.add(us);
-                          else usuariosData.where((element) => element.uid == key).first.estado = us.estado;
+                          if( usuariosData.where((element) => element.uid == key).isEmpty) {
+                            usuariosData.add(us);
+                          } else {
+                            usuariosData.where((element) => element.uid == key).first.estado = us.estado;
+                          }
                         }
 
                       });
@@ -82,9 +90,7 @@ class _GroupPageState extends State<GroupPage> {
                       return buildBody(context);
                     }
                   default:
-                    return Center(
-                      child:CircularProgressIndicator()
-                    );
+                    return buildBody(context);
                 }
               },
             );            

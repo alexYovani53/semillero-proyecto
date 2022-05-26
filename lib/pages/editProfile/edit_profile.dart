@@ -52,7 +52,7 @@ class _EditProfileState extends State<EditProfile> {
         margin: EdgeInsets.only(top:20),
         child: FloatingActionButton(
           heroTag: "otro boton",
-          child: Icon(Icons.arrow_circle_left_outlined),
+          child: Icon(Icons.arrow_circle_left_outlined,color:Colors.white),
           onPressed: (){
             Navigator.pop(context);
           },

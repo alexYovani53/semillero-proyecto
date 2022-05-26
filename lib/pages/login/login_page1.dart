@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:universales_proyecto/localizations/localizations.dart';
 import 'package:universales_proyecto/pages/login/form_login.dart';
+import 'package:universales_proyecto/provider/languaje_provider.dart';
+import 'package:universales_proyecto/utils/app_string.dart';
 import 'package:universales_proyecto/widget/layer1.dart';
 import 'package:universales_proyecto/widget/layer2.dart';
 import 'package:universales_proyecto/provider/theme_provider.dart';
@@ -10,11 +13,15 @@ class LoginPage1 extends StatelessWidget {
   LoginPage1({ Key? key }) : super(key: key);
 
   late ThemeProvider theme;
+  late LocalizationsApp diccionario;
 
   @override
   Widget build(BuildContext context) {
 
     theme = Provider.of<ThemeProvider>(context);
+
+    final languajeProvider = Provider.of<LanguajeProvider>(context);
+    diccionario = LocalizationsApp(languajeProvider.getLanguaje);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -55,8 +62,8 @@ class LoginPage1 extends StatelessWidget {
                 left: 59,
                 child: Container(
                   child: Text(
-                    'Inicio de sesión',
-                    style: TextStyle(
+                    diccionario.diccionario(Strings.initLoginTitle),
+                    style: const TextStyle(
                       fontFamily:"lato",
                       fontSize: 38,
                       fontWeight: FontWeight.bold,

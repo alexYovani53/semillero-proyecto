@@ -37,10 +37,10 @@ class UserChat{
   UserChat.fromJson(Map<String, dynamic> json)
       : uid = json['uid']??"",
         change = json['change']??false,
-        correo = json['correo']??"undefined",
-        estado = json['estado']??false,
+        correo = json['correo']??"undefinde",
+        estado = json['estado'],
         nombre = json['nombre']??"undefined",
-        urlImage = json['urlImage']??"",        
+        urlImage = json['urlImage'],        
         canales = json['Canales']??{};
 
   Map<String, dynamic> toJson() => {
