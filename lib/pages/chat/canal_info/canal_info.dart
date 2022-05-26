@@ -44,9 +44,11 @@ class _CanalInfoState extends State<CanalInfo> {
   List<UserChat> usuariosCanal = [];
 
   List<UserChat> usuariosNoCanal = [];
+  late Map<String, dynamic> listUsuariosState ;
 
   @override
   Widget build(BuildContext context) {
+    listUsuariosState = widget.listUsuarios;
     
     bloc = BlocProvider.of<CanalBloc>(context);
     theme = Provider.of<ThemeProvider>(context);
@@ -112,8 +114,7 @@ class _CanalInfoState extends State<CanalInfo> {
                       final data = snapshot.data.value;
                       final dataJson = json.decode(json.encode(data));
 
-                      dataJson.forEach((key, value) {
-                              
+                      dataJson.forEach((key, value) {                              
                         Map<String,dynamic> data = json.decode(json.encode(value));                        
                         UserChat us = UserChat.fromJson(data);
                         us.uid = key;
@@ -123,7 +124,7 @@ class _CanalInfoState extends State<CanalInfo> {
                         }
                       });
 
-                      widget.listUsuarios.forEach((key, value) {
+                      listUsuariosState.forEach((key, value) {
                         if(usuarios.where((element) => element.uid==key).isNotEmpty){
                           usuariosCanal.add(usuarios.firstWhere((element) => element.uid==key));
                         }
@@ -173,7 +174,7 @@ class _CanalInfoState extends State<CanalInfo> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                "Grupo . "+ widget.listUsuarios.length.toString() +" participantes",
+                "Grupo . "+ listUsuariosState.length.toString() +" participantes",
                 style: TextStyle(
                   fontSize: 18,
                   fontStyle: FontStyle.italic,
@@ -198,7 +199,17 @@ class _CanalInfoState extends State<CanalInfo> {
           bloc: bloc,
           uidLogueado: widget.uidLogueado,
           idCanal: widget.idCanal,
-          informarActualizacion: (){},
+          informarActualizacion: (bool agrega, UserChat user){
+            if(agregar){
+              setState(() {       
+                listUsuariosState[user.uid] = user.uid;       
+              });
+            }else{
+              setState(() {
+                listUsuariosState.remove(user.uid);
+              });
+            }
+          },
         );
       },
     );

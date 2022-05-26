@@ -12,7 +12,7 @@ class UserCardChannelEdit extends StatelessWidget {
   String uidLogueado;
   String idCanal;
   CanalBloc bloc;
-  VoidCallback informarActualizacion;
+  Function(bool,UserChat) informarActualizacion;
 
   UserCardChannelEdit({
     Key? key,
@@ -67,7 +67,10 @@ class UserCardChannelEdit extends StatelessWidget {
                   nombreLogueado: "undefined"
                 ));
                 
-                informarActualizacion();
+                informarActualizacion(
+                  true,
+                  usuario
+                );
               }, 
               icon: Icon(
                 Icons.add_box,
@@ -83,7 +86,9 @@ class UserCardChannelEdit extends StatelessWidget {
                   nombreLogueado: "undefined"
                 ));
                 
-                informarActualizacion();
+                informarActualizacion(
+                  false,
+                  usuario);
               }, 
               icon: Icon(
                 Icons.delete,
