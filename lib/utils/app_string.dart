@@ -15,6 +15,13 @@ enum Strings {
   initPassword,
   initEmail,
   initUserName,
+  initLoginTitle,
+  initRegisterTitle,
+  initButton,
+  initOr,
+  initRemember,
+  initRegistrar,
+  initCrearCuenta,
 
   editingText1,
   editingText2,
@@ -24,6 +31,31 @@ enum Strings {
   editingInputUser,
   editingInputPassword,
   editingMessageUser,
-  editingMessagePassword
+  editingMessagePassword,
+
+  navItem1,
+  navItem2,
+  navItem3,
+  navItem4,
+
+  profileConfigButton,
+
+  chatsTitle,
+  chatsInputMessage,
+
+  
+  groupTitle,
+  groupDescription,
+  groupTitlePage,
+  groupParticipantes,
+
+  biometricsTituloDialog,
+  biometricsBloqueado,
+  biometricsNoDisponible,
+  biometricsNoConfigurado,
+  biometricsSingInTitle,
+  biometricsCancelButton,
+  biometricsBiometricHint,
+  biometricsLocalizedReason,
 
 }

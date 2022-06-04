@@ -8,10 +8,10 @@ abstract class UserState extends Equatable{
 }
 class UserInitState extends UserState{}
 
-class UserProfileState extends UserState{}
-class UserSettingsState extends UserState{}
-class UserEditState extends UserState{}
-class UserChatState extends UserState{}
+class UserPageProfileState extends UserState{}
+class UserPageSettingsState extends UserState{}
+class UserPageEditState extends UserState{}
+class UserPageChatState extends UserState{}
 
 class UserActualizacionState extends UserState{}
 

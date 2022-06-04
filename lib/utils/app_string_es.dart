@@ -18,7 +18,13 @@ const Map<Strings, String> dictionary_es = {
   Strings.initPassword:"Contraseña",
   Strings.initEmail:"Correo",
   Strings.initUserName: "Usuario",
-
+  Strings.initLoginTitle:"Iniciar sesión",
+  Strings.initRegisterTitle: "Registro",
+  Strings.initButton:"Ingresar",
+  Strings.initOr:"O",
+  Strings.initRemember:"Recordarme",
+  Strings.initRegistrar:"Regisrar",
+  Strings.initCrearCuenta:"Crear cuenta con",
   
   Strings.editingText1:"Editar ",
   Strings.editingText2:"Perfil",
@@ -28,5 +34,32 @@ const Map<Strings, String> dictionary_es = {
   Strings.editingInputUser:"Nombre de usuario",
   Strings.editingInputPassword:"Contraseña",
   Strings.editingMessageUser:"",
-  Strings.editingMessagePassword:""
+  Strings.editingMessagePassword:"",
+
+  Strings.navItem1:"Perfil",
+  Strings.navItem2:"Canales",
+  Strings.navItem3:"Configuraciones",
+  Strings.navItem4:"Salir",
+  
+  Strings.profileConfigButton :"Configurar perfil",
+
+  Strings.chatsTitle: "Canales",
+  Strings.chatsInputMessage:"Escribir mensaje",
+
+  
+  Strings.groupTitle:"Escribir asunto",
+  Strings.groupDescription:"Escribir una descripcion ",
+  Strings.groupTitlePage:"Nuevo canal",
+  Strings.groupParticipantes:"Participantes",
+
+    
+  Strings.biometricsTituloDialog:"Biometria",
+  Strings.biometricsBloqueado:"Se ingresaron demasiados intentos, el dispositivo bloqueo la autentificación",
+  Strings.biometricsNoDisponible:"El dispositivo no cuenta con esta funcionalidad",
+  Strings.biometricsNoConfigurado:"El dispositivo no tiene configurado una huella",
+  Strings.biometricsSingInTitle:"!!! Se requiere autenticación biométrica",
+  Strings.biometricsCancelButton:"Cancelar?",
+  Strings.biometricsBiometricHint:"Toque la pantalla para verificar su huella",
+  Strings.biometricsLocalizedReason:"Reconocimiento de huella",
+
 };

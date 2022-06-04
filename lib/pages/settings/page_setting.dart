@@ -43,7 +43,7 @@ class _PageSettingState extends State<PageSetting> {
     selectedTheme = theme.getTheme == ThemeMode.light? diccionary.diccionario(Strings.settingLight): diccionary.diccionario(Strings.settingDark);
 
     return Scaffold(
-      backgroundColor: theme.getTheme == ThemeMode.light? Color(0XFF7A9BEE): Color.fromARGB(255, 47, 60, 92),
+      backgroundColor: Theme.of(context).colorScheme.primary,
       drawer: NavigationDrawerCustom(),
       appBar: AppBar(
         // leading: IconButton(
@@ -53,13 +53,13 @@ class _PageSettingState extends State<PageSetting> {
         //   icon: Icon(Icons.arrow_back_ios),
         //   color: Colors.white
         // ),
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).primaryColorDark,
         elevation: 0.0,
         title: Text(
           diccionary.diccionario(Strings.settingName),
           style: TextStyle(
             fontSize: 18.0,
-            color:Colors.white
+            color:theme.getTheme==ThemeMode.light?Color.fromARGB(255, 0, 0, 0):Colors.white
           ),
         ),
         centerTitle: true,
@@ -70,28 +70,29 @@ class _PageSettingState extends State<PageSetting> {
       body: ListView(
         children: [
           Stack(
+            clipBehavior: Clip.none,
             children: [
               Container(
                 height: MediaQuery.of(context).size.height - 82.0,
                 width: MediaQuery.of(context).size.width,
-                color: Color.fromARGB(0, 202, 0, 0)
+                color: theme.getTheme == ThemeMode.light? Color.fromARGB(255, 228, 226, 224):Color.fromARGB(255, 83, 83, 83)
               ),
               Positioned(
-                top:75.0,
+                top:175.0,
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: const BorderRadius.only(
                       topLeft: Radius.circular(45),
                       topRight: Radius.circular(45)
                     ),
-                    color:theme.getTheme == ThemeMode.light? Colors.white: Colors.grey
+                    color:theme.getTheme == ThemeMode.light? Colors.white: Color.fromARGB(255, 30, 29, 41)
                   ),
                 ),
                 height: MediaQuery.of(context).size.height - 100.0,
                 width: MediaQuery.of(context).size.width
               ),
               Positioned (
-                top:30.0,
+                top:100.0,
                 left: (MediaQuery.of(context).size.width /2)-100.0,
                 child: Hero(
                   tag: "Saludo", 
@@ -102,8 +103,8 @@ class _PageSettingState extends State<PageSetting> {
                         fit: BoxFit.cover
                       )
                     ),
-                    height: 200.0,
-                    width: 200.0,
+                    height: 150.0,
+                    width: 150.0,
                   )
                 )
               ),
@@ -118,8 +119,7 @@ class _PageSettingState extends State<PageSetting> {
                       padding: EdgeInsets.only(bottom:5.0),
                       child: Container(
                         decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0), bottomLeft: Radius.circular(25.0), bottomRight: Radius.circular(25.0)),
-                          color: Colors.black
+                          border: Border(bottom: BorderSide(width: 2,color: Colors.black))
                         ),
                         height: 50.0,
                         child: Row(
@@ -181,7 +181,7 @@ class _PageSettingState extends State<PageSetting> {
                           height: 40.0,                          
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(17.0),
-                              color: theme.getTheme == ThemeMode.light? Color.fromARGB(255, 194, 181, 62): Color.fromARGB(255, 73, 73, 73)
+                              color: theme.getTheme == ThemeMode.light? Color.fromARGB(255, 53, 144, 204): Color.fromARGB(255, 73, 73, 73)
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -197,7 +197,7 @@ class _PageSettingState extends State<PageSetting> {
                                   width: 50.0,
                                   decoration:  BoxDecoration(
                                       borderRadius: BorderRadius.only(bottomLeft: Radius.circular(17),topLeft: Radius.circular(17)),
-                                      color: theme.getTheme == ThemeMode.light? Color.fromARGB(255, 235, 222, 104): Color.fromARGB(255, 73, 73, 73)
+                                      color: theme.getTheme == ThemeMode.light? Color.fromARGB(255, 58, 130, 179): Color.fromARGB(255, 73, 73, 73)
                                   ),
                                   child: const Center(
                                     child: Icon(
@@ -232,7 +232,7 @@ class _PageSettingState extends State<PageSetting> {
                                   width: 50.0,
                                   decoration:  BoxDecoration(
                                       borderRadius:  const BorderRadius.only( topRight: Radius.circular(17),bottomRight: Radius.circular(17)),
-                                      color: theme.getTheme == ThemeMode.light? Color.fromARGB(255, 194, 181, 62): Color.fromARGB(255, 100, 93, 93)
+                                      color: theme.getTheme == ThemeMode.light? Color.fromARGB(255, 53, 144, 204): Color.fromARGB(255, 100, 93, 93)
                                   ),
                                   child: const Center(
                                     child: Icon(
@@ -252,9 +252,8 @@ class _PageSettingState extends State<PageSetting> {
                     Padding(
                       padding: EdgeInsets.only(bottom:5.0),
                       child: Container(
-                        decoration: const BoxDecoration(
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0), bottomLeft: Radius.circular(25.0), bottomRight: Radius.circular(25.0)),
-                          color: Colors.black
+                        decoration: const BoxDecoration(                          
+                          border: Border(bottom: BorderSide(width: 2,color: Colors.black))
                         ),
                         height: 50.0,
                         child: Center(
@@ -324,10 +323,10 @@ class _PageSettingState extends State<PageSetting> {
                                 value:item,
                                 child: Text(
                                   item,
-                                  style: const TextStyle(
+                                  style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.black,
+                                    color: theme.getTheme == ThemeMode.light?Color(0xFF000000):Colors.white
                                   ),
                                   overflow: TextOverflow.ellipsis,
 
