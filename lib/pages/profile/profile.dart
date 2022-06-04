@@ -1,9 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 import 'package:universales_proyecto/bloc/user/user_bloc.dart';
+import 'package:universales_proyecto/localizations/localizations.dart';
 import 'package:universales_proyecto/pages/editProfile/edit_profile.dart';
 import 'package:universales_proyecto/pages/settings/page_setting.dart';
+import 'package:universales_proyecto/provider/languaje_provider.dart';
+import 'package:universales_proyecto/utils/app_string.dart';
 import 'package:universales_proyecto/widget/custo_page_router.dart';
 import 'package:universales_proyecto/widget/navigation_drawer_custom.dart';
 
@@ -23,12 +27,16 @@ class _ProfileState extends State<Profile> {
   GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   late UserBloc bloc;
-  
+  late LocalizationsApp diccionario;
 
   @override
   Widget build(BuildContext context) {
 
     bloc = BlocProvider.of<UserBloc>(context);
+    
+
+    final languajeProvider = Provider.of<LanguajeProvider>(context);
+    diccionario = LocalizationsApp(languajeProvider.getLanguaje);
 
     final top = coverHeight - profileHeight/2;
     return Scaffold(
@@ -223,12 +231,10 @@ class _ProfileState extends State<Profile> {
               children: [
                 Icon(Icons.settings),
                 Divider(height: 48,),
-                Text("Configurar perfil")
+                Text(diccionario.diccionario(Strings.profileConfigButton))
               ],
             ),
-            IconButton(onPressed: (){
-              
-            }, icon: Icon(Icons.arrow_right))
+            Icon(Icons.arrow_right)
           ],
         ),
       ),

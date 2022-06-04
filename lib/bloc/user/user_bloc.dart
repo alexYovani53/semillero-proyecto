@@ -30,6 +30,7 @@ class UserBloc extends Bloc<UserEvent,UserState>{
   UserBloc( ) : super(UserInitState()){
 
     on<UserEvent>((event, emit)  async {
+      print(event.runtimeType.toString());
     });
 
     on<userEventUpdateProfile>((event, emit)  async {
@@ -86,16 +87,16 @@ class UserBloc extends Bloc<UserEvent,UserState>{
 
     //CAMBIO DE PAGINA
     on<UserEventPageEdit>((event,emit)async {
-      emit(UserEditState());
+      emit(UserPageEditState());
     });
     on<UserEventPageProfile>((event,emit)async {
-      emit(UserProfileState());
+      emit(UserPageProfileState());
     });
     on<UserEventPageSettings>((event,emit)async {
-      emit(UserSettingsState());
+      emit(UserPageSettingsState());
     });
     on<UserEventPageChat>((event,emit)async {
-      emit(UserChatState());
+      emit(UserPageChatState());
     });
 
   }

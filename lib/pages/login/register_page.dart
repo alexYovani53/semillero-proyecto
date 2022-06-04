@@ -2,7 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:universales_proyecto/localizations/localizations.dart';
 import 'package:universales_proyecto/pages/login/form_register.dart';
+import 'package:universales_proyecto/provider/languaje_provider.dart';
+import 'package:universales_proyecto/utils/app_string.dart';
 import 'package:universales_proyecto/widget/layer1.dart';
 import 'package:universales_proyecto/widget/layer2.dart';
 import 'package:universales_proyecto/provider/theme_provider.dart';
@@ -18,9 +21,16 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
 
   late ThemeProvider theme;
+  late LocalizationsApp diccionario;
+  
   @override
   Widget build(BuildContext context) {
     theme = Provider.of<ThemeProvider>(context);
+
+    
+
+    final languajeProvider = Provider.of<LanguajeProvider>(context);
+    diccionario = LocalizationsApp(languajeProvider.getLanguaje);
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -51,7 +61,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 left: 59,
                 child: Container(
                   child: Text(
-                    'Register',
+                    diccionario.diccionario(Strings.initRegisterTitle),
                     style: TextStyle(
                       fontSize: 48,
                       fontWeight: FontWeight.w500,

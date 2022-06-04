@@ -9,6 +9,8 @@ class FirebaseUsersRepository {
   final FirebaseUserApi api = FirebaseUserApi();
 
   DatabaseReference usuarios() => api.usuarios();
+  DatabaseReference canalesUsuario(uid) => api.usuariosCanales(uid);
 
   Future<DataSnapshot> listUser() => api.listUser();
+  Future<DataSnapshot> infoUser(String uid) => api.infoUser(uid);
 }

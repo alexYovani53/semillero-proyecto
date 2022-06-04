@@ -38,8 +38,9 @@ class _FormRegisterState extends State<FormRegister> {
 
     theme = Provider.of<ThemeProvider>(context);
     bloc = BlocProvider.of<UserBloc>(context);
+
     LanguajeProvider languajeProvider = Provider.of<LanguajeProvider>(context);
-    LocalizationsApp diccionary = LocalizationsApp(languajeProvider.getLanguaje);
+    diccionary = LocalizationsApp(languajeProvider.getLanguaje);
 
     return Container(
 
@@ -120,7 +121,7 @@ class _FormRegisterState extends State<FormRegister> {
                             ),
                             child: Center(
                               child: Text(
-                                "Registrar",
+                                diccionary.diccionario(Strings.initRegistrar),
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color:Colors.white,
@@ -146,7 +147,7 @@ class _FormRegisterState extends State<FormRegister> {
                       margin: EdgeInsets.only(top: 25.0),
                       width: 310,
                       child: Center(
-                        child: Text("Crear cuenta con "),
+                        child: Text(diccionary.diccionario(Strings.initCrearCuenta)),
                       ),
                     ),
                     Container(
@@ -177,7 +178,7 @@ class _FormRegisterState extends State<FormRegister> {
                             ),
                           ),
                           Text(
-                            "or",
+                            diccionary.diccionario(Strings.initOr),
                             style: TextStyle(
                               fontSize: 18,
                               fontFamily: 'Poppins-Regular',

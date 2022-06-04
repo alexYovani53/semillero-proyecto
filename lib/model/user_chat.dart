@@ -26,12 +26,20 @@ class UserChat{
     selected = false
   });
 
+  List<UserChat> usuarios(Map<String,dynamic> data){
+    List<UserChat> lista= [];
+    data.forEach((key, value) {
+      lista.add(UserChat.fromJson(value));
+    });
+    return lista;
+  }
+
   UserChat.fromJson(Map<String, dynamic> json)
       : uid = json['uid']??"",
-        change = json['change'],
-        correo = json['correo'],
+        change = json['change']??false,
+        correo = json['correo']??"undefinde",
         estado = json['estado'],
-        nombre = json['nombre'],
+        nombre = json['nombre']??"undefined",
         urlImage = json['urlImage'],        
         canales = json['Canales']??{};
 
@@ -43,6 +51,14 @@ class UserChat{
     'urlImage':urlImage,
     'Canales':canales
   };
+
+  static Map<String,dynamic> listToJson(List<UserChat> lista){
+    Map<String,dynamic> json = {};
+    lista.forEach((element) {
+      json[element.uid] = element.uid ;
+    });
+    return json;
+  }
 
 
 }

@@ -90,7 +90,7 @@ class FirebaseAuthAPI {
         await user.reload();
         user = auth.currentUser;
       }catch(e){
-        print("Error");
+        print("Error '${e.toString()}'");
       }
     }
 
